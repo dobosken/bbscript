@@ -4,6 +4,8 @@ A fork of Pangaea's original ( [GitHub - super-continent/bbscript](https://githu
 
 Not implicitly incompatible with other Arcsys titles, but this fork has not been tested with anything other than DBFZ.
 
+Check out [GitHub - dobosken/dbfz_npp](https://github.com/dobosken/dbfz_npp) for better BBS editing with Notepad++.
+
 ## Changes from vanilla BBScript
 
 - Indentation is now done with tabs, and is less likely to break due to vanilla Arcsys errors

@@ -10,3 +10,6 @@ Cargo.lock
 **/*.rs.bk
 *.rbs
 test_data/*
+
+# Custom buildscript for cross-compiling etc.
+build.sh
