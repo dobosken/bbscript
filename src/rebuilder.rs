@@ -11,7 +11,11 @@ use bytes::{Bytes, BytesMut};
 use pest_consume::{match_nodes, Parser};
 
 pub fn rebuild_bbscript(db: ScriptConfig, script: String) -> Result<Bytes, BBScriptError> {
-    let parsed = BBSParser::parse(Rule::program, &script)?;
+    // Yoink out '{' and '}'
+    let scrubbed = &script.replace(r"{", r"")
+                                .replace(r"}", r"");
+
+    let parsed = BBSParser::parse(Rule::program, &scrubbed)?;
     let root = parsed.single()?;
 
     // verbose!(println!("Parsed program:\n{:#?}", &root), verbose);

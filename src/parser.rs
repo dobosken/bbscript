@@ -9,9 +9,6 @@ use crate::game_config::{
 use crate::BBScriptError;
 use crate::HashMap;
 
-const INDENT_LIMIT: usize = 12;
-const INDENT_SPACES: usize = 2;
-
 #[derive(Debug, Clone)]
 pub enum ArgValue {
     Unknown(SmallVec<[u8; 128]>),
@@ -41,13 +38,13 @@ fn arg_to_string(config: &ScriptConfig, arg: &ArgValue) -> Result<String, BBScri
         }
         // get named value
         ArgValue::AccessedValue(_tagged @ TaggedValue::Variable(val)) => Ok(format!(
-            "Mem({})",
+            "var({})",
             config
                 .named_variables
                 .get_by_left(val)
                 .unwrap_or(&format!("{val}"))
         )),
-        ArgValue::AccessedValue(_tagged @ TaggedValue::Literal(val)) => Ok(format!("Val({val})")),
+        ArgValue::AccessedValue(_tagged @ TaggedValue::Literal(val)) => Ok(format!("int({val})")),
         ArgValue::Enum(name, val) => match config.named_value_maps.get(name) {
             Some(map) => map
                 .get_by_left(val)
@@ -57,25 +54,82 @@ fn arg_to_string(config: &ScriptConfig, arg: &ArgValue) -> Result<String, BBScri
     }
 }
 
+
 impl ScriptConfig {
     pub fn parse_to_string<T: Into<Bytes>>(&self, input: T) -> Result<String, BBScriptError> {
         let program = self.parse(input)?;
         let mut out = String::new();
 
-        let mut indent = 0;
-        let mut block_ended = false;
-        for instruction in program {
-            // indent the text
-            out.write_fmt(format_args!(
-                "{:indent$}",
-                "",
-                indent = (indent.clamp(0, INDENT_LIMIT) * (INDENT_SPACES))
-            ))?;
+        let mut blocktype: u8;
+        /*
+        * Blocktypes:
+        * 1 = BeginTop
+        * 2 = Begin
+        * 3 = EndTop
+        * 4 = End
+        */
+        let mut indent: usize = 0;
+        let mut prev_indent: usize = 0;
 
+        for instruction in program {
+
+            // Identify blocktype and adjust indentation for the lines that succeed it.
+            match instruction.code_block {
+                CodeBlock::BeginTop => {
+                    blocktype = 1;
+                    indent = 1;
+                }
+                CodeBlock::Begin => {
+                    blocktype = 2;
+                    indent += 1;
+                }
+                CodeBlock::EndTop => {
+                    blocktype = 3;
+                    indent = 0;
+                }
+                CodeBlock::End => {
+                    blocktype = 4;
+                    if indent > 0 {
+                        indent -= 1;
+                    }
+                }
+                _ => {
+                    blocktype = 0;
+                }
+            }
+            
+            // Indent the current line.
+            if blocktype < 3 {
+                out.write_fmt(format_args!(
+                    "{:\t<width$}",
+                    "",
+                    width = prev_indent
+                ))?;
+            // Bocktype indicates this line closes out a block. Slap an extra } in front of the instruction to aid in styling.
+            } else {
+                if prev_indent > 0 {
+                    prev_indent -= 1;
+                    // Only blocktype 3 allows indentation to revert to 0.
+                    if prev_indent == 0 && blocktype != 3 {
+                        prev_indent +=1;
+                        indent +=1;
+                    }
+                }
+                out.write_fmt(format_args!(
+                    "{:\t<width$}}} ",
+                    "",
+                    width = prev_indent
+                ))?;
+            }
+
+            // Update the indentation for the next line.
+            prev_indent = indent;
+
+            // Append the parsed instruction and it's arguments to the output buffer.
             let instruction_name = if let Some(name) = instruction.name {
                 name
             } else {
-                format!("Unknown{}", instruction.id)
+                format!("unknown{}", instruction.id)
             };
 
             out.write_fmt(format_args!("{}: ", instruction_name))?;
@@ -89,24 +143,12 @@ impl ScriptConfig {
                 }
             }
 
-            out.write_char('\n')?;
 
-            match instruction.code_block {
-                CodeBlock::Begin => indent += 1,
-                CodeBlock::End => {
-                    if indent > 0 {
-                        indent -= 1;
-                        if indent == 0 {
-                            block_ended = true;
-                        }
-                    }
-                }
-                _ => {}
-            }
-
-            if block_ended {
-                out.write_char('\n')?;
-                block_ended = false;
+            // Append various EOL to the output buffer based on blocktype.
+            match blocktype{
+                1 | 2 => out.write_str(" {\n").unwrap(),
+                3 => out.write_str("\n\n").unwrap(),
+                4 | _ => out.write_str("\n").unwrap(),
             }
         }
 
@@ -286,7 +328,12 @@ impl ScriptConfig {
 fn process_string_buf(buf: &[u8]) -> String {
     buf.iter()
         .filter(|x| **x != 0)
+        // JNNEF: 0x13 to null
+        .filter(|x| **x != 19)
         .map(|x| *x as char)
         .collect::<String>()
-        .replace(r"'", r"\'")
+        // BRS: 0x09 to 'g'
+        .replace(r"	", r"g")
+        // ASN: 0x27 to null
+        .replace(r"'", r"")
 }

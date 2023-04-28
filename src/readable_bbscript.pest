@@ -15,8 +15,8 @@ args = { arg ~ ("," ~ arg)* ~ ","? }
 arg = {
   "s16'" ~ string16 ~ "'"
 | "s32'" ~ string32 ~ "'"
-| "Mem(" ~ (named_var | var_id) ~ ")"
-| "Val(" ~ tagged_value ~ ")"
+| "var(" ~ (named_var | var_id) ~ ")"
+| "int(" ~ tagged_value ~ ")"
 | "BadTag(" ~ unknown_tag ~ "," ~ tagged_value ~ ")"
 | "(" ~ named_value ~ ")"
 | "0x" ~ raw_data

@@ -600,10 +600,12 @@ pub enum Arg {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum CodeBlock {
+    BeginTop,
     Begin,
     #[deprecated]
     #[cfg(feature = "old-cfg-converter")]
     BeginJumpEntry,
+    EndTop,
     End,
     NoBlock,
 }
