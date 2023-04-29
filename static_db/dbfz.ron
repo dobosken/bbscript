@@ -1,6 +1,6 @@
 /*
 Broscar#4765
-ron_version: 1.0
+ron_version: 1.0.1
 https://github.com/dobosken/bbscript
 */
 
@@ -9445,7 +9445,7 @@ https://github.com/dobosken/bbscript
 		),
 		1697: (
 			size: 8,
-			name: "faceReset",
+			name: "faceAnimation",
 			codeBlock: NoBlock,
 			args: [
 				Number,
