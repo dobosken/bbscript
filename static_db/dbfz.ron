@@ -440,6 +440,7 @@ https://github.com/dobosken/bbscript
 			37: "SHOT_SOUSAI_REACTION",
 			38: "PLAYER_GUARD",
 			41: "ARMOR",
+			43: "MUTEKI_PRE_HITSTOP",
 			45: "DESTROY",
 			46: "WALL",
 			47: "AFTER_EXIT",
@@ -461,6 +462,7 @@ https://github.com/dobosken/bbscript
 			72: "ON_PLAYER_GUARD_AFTER_FIX_PARAM",
 			73: "ON_ENEMY_DAMAGE_AFTER_FIX_PARAM",
 			74: "GUARD",
+			77: "FRAME_STEP_AFTER_EX",
 			78: "ON_ATTACK_HIT_PLAYER_DAMAGE_PRE_CTRL",
 			79: "ON_FORCE_X",
 			84: "ON_FORCE_DOWN",
@@ -3870,43 +3872,62 @@ https://github.com/dobosken/bbscript
 			size: 40,
 			name: "createParticleBG",
 			codeBlock: NoBlock,
-			args: [],
+			args: [
+				String32,
+				Enum("e_attachmentpoint"),
+			],
 		),
 		470: (
 			size: 40,
 			name: "createParticleArgBG",
 			codeBlock: NoBlock,
-			args: [],
+			args: [
+				String32,
+				Enum("e_attachmentpoint"),
+			],
 		),
 		471: (
 			size: 36,
 			name: "linkParticleBG",
 			codeBlock: NoBlock,
-			args: [],
+			args: [
+				String32
+			],
 		),
 		472: (
 			size: 36,
 			name: "linkParticleArgBG",
 			codeBlock: NoBlock,
-			args: [],
+			args: [
+				String32
+			],
 		),
 		473: (
 			size: 40,
 			name: "linkParticleExBG",
 			codeBlock: NoBlock,
-			args: [],
+			args: [
+				String32,
+				Enum("e_attachmentpoint"),
+			],
 		),
 		474: (
 			size: 40,
 			name: "createObjectBG",
 			codeBlock: NoBlock,
-			args: [],
+			args: [
+				String32,
+				Enum("e_attachmentpoint"),
+			],
 		),
 		475: (
 			size: 40,
 			name: "createObjectArgBG",
 			codeBlock: NoBlock,
-			args: [],
+			args: [
+				String32,
+				Enum("e_attachmentpoint"),
+			],
 		),
 		476: (
 			size: 36,
@@ -4444,7 +4465,12 @@ https://github.com/dobosken/bbscript
 			size: 20,
 			name: "effectForLandBreak",
 			codeBlock: NoBlock,
-			args: [],
+			args: [
+				Number,
+				Number,
+				Number,
+				Number,
+			],
 		),
 		671: (
 			size: 8,
@@ -6137,7 +6163,7 @@ https://github.com/dobosken/bbscript
 		),
 		1079: (
 			size: 8,
-			name: "atkNoSousai",
+			name: "disableAttackClashing",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -6240,7 +6266,7 @@ https://github.com/dobosken/bbscript
 		),
 		1092: (
 			size: 8,
-			name: "setProration",
+			name: "setInitialProration",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -7156,13 +7182,27 @@ https://github.com/dobosken/bbscript
 			size: 28,
 			name: "atkSuikomiXActPosBase",
 			codeBlock: NoBlock,
-			args: [],
+			args: [
+				Enum("e_objects"),
+				Enum("e_attachmentpoint"),
+				Number,
+				Number,
+				Number,
+				Number,
+			],
 		),
 		1208: (
 			size: 28,
 			name: "atkSuikomiYActPosBase",
 			codeBlock: NoBlock,
-			args: [],
+			args: [
+				Enum("e_objects"),
+				Enum("e_attachmentpoint"),
+				Number,
+				Number,
+				Number,
+				Number,
+			],
 		),
 		1209: (
 			size: 8,
@@ -11137,7 +11177,7 @@ https://github.com/dobosken/bbscript
 			name: "checkLastAttackHitStateName",
 			codeBlock: NoBlock,
 			args: [
-				Number,
+				Enum("e_objects"),
 				String32,
 			],
 		),
@@ -11152,7 +11192,7 @@ https://github.com/dobosken/bbscript
 			name: "checkCurrentStateName",
 			codeBlock: NoBlock,
 			args: [
-				Number,
+				Enum("e_objects"),
 				String32,
 			],
 		),
@@ -11303,7 +11343,7 @@ https://github.com/dobosken/bbscript
 			codeBlock: NoBlock,
 			args: [
 				String32,
-				Number,
+				Enum("e_objects"),
 				Number,
 				Number,
 			],
@@ -11521,7 +11561,7 @@ https://github.com/dobosken/bbscript
 			name: "moveCameraEx",
 			codeBlock: NoBlock,
 			args: [
-				Number,
+				Enum("e_objects"),
 				Number,
 				Number,
 				Number,
@@ -11541,7 +11581,25 @@ https://github.com/dobosken/bbscript
 			size: 72,
 			name: "targetCamera",
 			codeBlock: NoBlock,
-			args: [],
+			args: [
+				Enum("e_objects"),
+				Enum("e_objects"),
+				Number,
+				Number,
+				Number,
+				Number,
+				Number,
+				Number,
+				Number,
+				Number,
+				Number,
+				Number,
+				Number,
+				Number,
+				Number,
+				Number,
+				Number,
+			],
 		),
 		2082: (
 			size: 4,
@@ -11664,8 +11722,8 @@ https://github.com/dobosken/bbscript
 			name: "setPosXBetweenObj",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
+				Enum("e_objects"),
+				Enum("e_objects"),
 			],
 		),
 		2099: (
@@ -11673,8 +11731,8 @@ https://github.com/dobosken/bbscript
 			name: "setPosYBetweenObj",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
+				Enum("e_objects"),
+				Enum("e_objects"),
 			],
 		),
 		2100: (
@@ -12360,8 +12418,7 @@ https://github.com/dobosken/bbscript
 			name: "zLine",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
+				AccessedValue,
 			],
 		),
 		2190: (
@@ -12418,8 +12475,7 @@ https://github.com/dobosken/bbscript
 			name: "exPointFAdd",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
+				AccessedValue,
 				Number,
 				Number,
 			],
@@ -12467,12 +12523,9 @@ https://github.com/dobosken/bbscript
 			name: "setRandom",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
-				Number,
-				Number,
-				Number,
-				Number,
+				AccessedValue,
+				AccessedValue,
+				AccessedValue,
 			],
 		),
 		2203: (
@@ -12947,8 +13000,7 @@ https://github.com/dobosken/bbscript
 			name: "createArg_Scale",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
+				AccessedValue,
 			],
 		),
 		2274: (
@@ -12956,8 +13008,7 @@ https://github.com/dobosken/bbscript
 			name: "createArg_ScaleMult",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
+				AccessedValue,
 			],
 		),
 		2275: (
@@ -12965,8 +13016,7 @@ https://github.com/dobosken/bbscript
 			name: "createArg_Angle",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
+				AccessedValue,
 			],
 		),
 		2276: (
@@ -12974,8 +13024,7 @@ https://github.com/dobosken/bbscript
 			name: "createArg_AnglePlus",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
+				AccessedValue,
 			],
 		),
 		2277: (
@@ -13028,8 +13077,7 @@ https://github.com/dobosken/bbscript
 			name: "createArg_AngleY",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
+				AccessedValue,
 			],
 		),
 		2284: (
@@ -13037,8 +13085,7 @@ https://github.com/dobosken/bbscript
 			name: "createArg_ScaleX",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
+				AccessedValue,
 			],
 		),
 		2285: (
@@ -13046,8 +13093,7 @@ https://github.com/dobosken/bbscript
 			name: "createArg_ScaleMultX",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
+				AccessedValue,
 			],
 		),
 		2286: (
@@ -13055,8 +13101,7 @@ https://github.com/dobosken/bbscript
 			name: "createArg_ScaleY",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
+				AccessedValue,
 			],
 		),
 		2287: (
@@ -13064,8 +13109,7 @@ https://github.com/dobosken/bbscript
 			name: "createArg_ScaleMultY",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
+				AccessedValue,
 			],
 		),
 		2288: (
@@ -13073,8 +13117,7 @@ https://github.com/dobosken/bbscript
 			name: "createArg_ScaleZ",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
+				AccessedValue,
 			],
 		),
 		2289: (
@@ -13082,8 +13125,7 @@ https://github.com/dobosken/bbscript
 			name: "createArg_ScaleMultZ",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
+				AccessedValue,
 			],
 		),
 		2291: (
@@ -14069,15 +14111,21 @@ https://github.com/dobosken/bbscript
 		),
 		2488: (
 			size: 20,
-			name: "opCopyFromParent",
+			name: "copyVarFromParent",
 			codeBlock: NoBlock,
-			args: [],
+			args: [
+				AccessedValue,
+				AccessedValue,
+			],
 		),
 		2489: (
 			size: 20,
-			name: "opCopyFromPlayer",
+			name: "copyVarFromPlayer",
 			codeBlock: NoBlock,
-			args: [],
+			args: [
+				AccessedValue,
+				AccessedValue,
+			],
 		),
 		2490: (
 			size: 48,
@@ -14105,13 +14153,17 @@ https://github.com/dobosken/bbscript
 			codeBlock: NoBlock,
 			args: [
 				String32,
+				String32,
 			],
 		),
 		2494: (
 			size: 68,
 			name: "linkModelEnemyTeam",
 			codeBlock: NoBlock,
-			args: [],
+			args: [
+				String32,
+				String32,
+			],
 		),
 		2495: (
 			size: 40,
@@ -14140,27 +14192,25 @@ https://github.com/dobosken/bbscript
 		),
 		2498: (
 			size: 16,
-			name: "ifBeginCoType",
+			name: "ifVarOfObjectTrue",
 			codeBlock: Begin,
 			args: [
-				Number,
-				Number,
-				Number,
+				Enum("e_objects"),
+				AccessedValue,
 			],
 		),
 		2499: (
 			size: 16,
-			name: "ifBeginNotCoType",
+			name: "ifVarOfObjectFalse",
 			codeBlock: Begin,
 			args: [
-				Number,
-				Number,
-				Number,
+				Enum("e_objects"),
+				AccessedValue,
 			],
 		),
 		2500: (
 			size: 28,
-			name: "ifBeginOP2CoType",
+			name: "ifVarOfObjectOperation",
 			codeBlock: Begin,
 			args: [
 				Enum("e_operators"),
