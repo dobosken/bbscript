@@ -1,6 +1,6 @@
 /*
 Broscar#4765
-ron_version: 1.0.1
+ron_version: 1.0.2
 https://github.com/dobosken/bbscript
 */
 
@@ -126,8 +126,8 @@ https://github.com/dobosken/bbscript
 			112: "HeliumTime",
 			113: "BackStepInvalidTime",
 			114: "ScreenTouch",
-			115: "ObjectParam1",
-			116: "ObjectParam2",
+			115: "ObjectParameter1",
+			116: "ObjectParameter2",
 			117: "LandingStiffTimeForKy",
 			118: "Chousei0_",
 			119: "BurstYomi",
@@ -408,9 +408,9 @@ https://github.com/dobosken/bbscript
 			5: "LANDING_INFINITY",
 			6: "SCREEN_COLLISION",
 			7: "ACTION_END",
-			8: "HIT_OR_GUARD_ANY",
-			9: "HIT_OR_GUARD",
-			10: "HIT",
+			8: "ATTACK_COLLISION",
+			9: "ATTACK_COLLISION_PLAYER",
+			10: "ATTACK_HIT_PLAYER_DAMAGE",
 			11: "RECEIVE_ATTACK",
 			12: "NO_STOP_IDLING",
 			13: "TIMER",
@@ -450,11 +450,14 @@ https://github.com/dobosken/bbscript
 			51: "LANDING_NEXT_FRAME",
 			52: "ATTACK_HIT_PLAYER_DAMAGE_LAND_HIT",
 			53: "DEMO_END",
+			54: "ATTACK_HIT_PRE_CONTROL",
+			55: "ATTACK_HIT_PRE_CONTROL_FOR_FRIEND_HIT",
 			56: "FRAME_STEP_AFTER",
 			57: "HIT_BY_INSTANT_KILL",
 			58: "HIT_INSTANT_KILL",
 			59: "ANY_HIT_BY_INSTANT_KILL",
 			62: "FIRST_HIT",
+			64: "MUTEKI_PRE_HITSTOP_FOR_TOBIDOUGU",
 			65: "REFLACT",
 			66: "REFLACTED",
 			69: "DAMAGE_2",
@@ -476,6 +479,7 @@ https://github.com/dobosken/bbscript
 			93: "ON_ATTACK_COLLISION_SOUSAI",
 			95: "ON_PLAYER_AFTER_EXECUTE_DAMAGE",
 			96: "ON_SOUSAI_HOMING_DASH",
+			97: "SHOT_HIT_Z_REVERSAL_ACT",
 			98: "ON_ATTACK_HIT_PLAYER_ARMOR",
 			100: "COUNTER_HIT",
 		},
@@ -536,6 +540,12 @@ https://github.com/dobosken/bbscript
 			20: "SET",
 			21: "SET_DIR",
 			22: "PERCENT",
+		},
+		"e_math": {
+			0: "BOOLEAN",
+			1: "NOT",
+			2: "PERCENT",
+			3: "ABSOLUTE",
 		},
 		"e_movecondition": {
 			0: "NONE",
@@ -764,7 +774,7 @@ https://github.com/dobosken/bbscript
 			27: "EX_POINT_27",
 			28: "EX_POINT_28",
 			29: "EX_POINT_29",
-			100: "PLAYER",
+			100: "ZERO",
 			101: "ATTACK",
 			102: "DAMAGE",
 			103: "CENTER",
@@ -914,10 +924,6 @@ https://github.com/dobosken/bbscript
 			6: "BAIKEN_BLOCKING",
 			7: "NORMAL_THROW",
 		},
-		"e_eventtrigger": {
-			4: "FALL_SPEED",
-			13: "TIMER",
-		},
 		"e_superarmortype": {
 			0: "DODGE",
 			1: "ARMOR",
@@ -979,7 +985,7 @@ https://github.com/dobosken/bbscript
 			4: "KillForMOMJibaku",
 		},
 		"e_guardtype": {
-			0: "ANY",
+			0: "MID",
 			1: "HIGH",
 			2: "LOW",
 			3: "NONE",
@@ -1033,7 +1039,7 @@ https://github.com/dobosken/bbscript
 		),
 		3: (
 			size: 4,
-			name: "endLabel",
+			name: "spriteEnd",
 			codeBlock: NoBlock,
 			args: [],
 		),
@@ -1091,7 +1097,7 @@ https://github.com/dobosken/bbscript
 		),
 		11: (
 			size: 36,
-			name: "beginLabel",
+			name: "label",
 			codeBlock: NoBlock,
 			args: [
 				String32,
@@ -1107,7 +1113,7 @@ https://github.com/dobosken/bbscript
 		),
 		13: (
 			size: 56,
-			name: "gotoIfOperation",
+			name: "gotoLabelIfOperation",
 			codeBlock: NoBlock,
 			args: [
 				String32,
@@ -1154,7 +1160,7 @@ https://github.com/dobosken/bbscript
 		),
 		19: (
 			size: 8,
-			name: "deactivateObjectById",
+			name: "deactivateObject",
 			codeBlock: NoBlock,
 			args: [
 				Enum("e_objects"),
@@ -1190,7 +1196,7 @@ https://github.com/dobosken/bbscript
 		),
 		24: (
 			size: 44,
-			name: "gotoIfTrue",
+			name: "gotoLabelIfTrue",
 			codeBlock: NoBlock,
 			args: [
 				String32,
@@ -1199,7 +1205,7 @@ https://github.com/dobosken/bbscript
 		),
 		25: (
 			size: 44,
-			name: "gotoIfFalse",
+			name: "gotoLabelIfFalse",
 			codeBlock: NoBlock,
 			args: [
 				String32,
@@ -1233,7 +1239,7 @@ https://github.com/dobosken/bbscript
 		),
 		29: (
 			size: 68,
-			name: "jumpToStateIfNot",
+			name: "jumpToStateIfFalse",
 			codeBlock: NoBlock,
 			args: [
 				String32,
@@ -1303,7 +1309,7 @@ https://github.com/dobosken/bbscript
 			name: "setEventTrigger",
 			codeBlock: NoBlock,
 			args: [
-				Enum("e_eventtrigger"),
+				Enum("e_interrupts"),
 				Number,
 			],
 		),
@@ -1368,29 +1374,26 @@ https://github.com/dobosken/bbscript
 		),
 		44: (
 			size: 16,
-			name: "op1",
+			name: "modifyVarMath",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
-				Number,
+				Enum("e_math"),
+				AccessedValue,
 			],
 		),
 		45: (
 			size: 24,
-			name: "modifyVar2",
+			name: "modifyVarIntoResult",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
-				Number,
-				Number,
-				Number,
+				Enum("e_operators"),
+				AccessedValue,
+				AccessedValue,
 			],
 		),
 		46: (
 			size: 20,
-			name: "storeValue",
+			name: "copyVar",
 			codeBlock: NoBlock,
 			args: [
 				AccessedValue,
@@ -1434,7 +1437,7 @@ https://github.com/dobosken/bbscript
 		),
 		51: (
 			size: 8,
-			name: "checkActive",
+			name: "checkIsObjectActive",
 			codeBlock: NoBlock,
 			args: [
 				Enum("e_objects"),
@@ -1453,7 +1456,7 @@ https://github.com/dobosken/bbscript
 		),
 		53: (
 			size: 28,
-			name: "copyVar",
+			name: "copyVarFromObject",
 			codeBlock: NoBlock,
 			args: [
 				Enum("e_objects"),
@@ -1628,8 +1631,8 @@ https://github.com/dobosken/bbscript
 		),
 		74: (
 			size: 36,
-			name: "ifBeginGameMode",
-			codeBlock: NoBlock,
+			name: "ifGameMode",
+			codeBlock: Begin,
 			args: [
 				String32,
 			],
@@ -1650,7 +1653,7 @@ https://github.com/dobosken/bbscript
 		),
 		92: (
 			size: 8,
-			name: "setPosX",
+			name: "setXPosition",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -1658,7 +1661,7 @@ https://github.com/dobosken/bbscript
 		),
 		93: (
 			size: 8,
-			name: "setPositionX",
+			name: "setXPositionRaw",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -1666,7 +1669,7 @@ https://github.com/dobosken/bbscript
 		),
 		94: (
 			size: 8,
-			name: "modifyPositionX",
+			name: "addXPosition",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -1674,19 +1677,19 @@ https://github.com/dobosken/bbscript
 		),
 		96: (
 			size: 4,
-			name: "pushPosX",
+			name: "pushXPosition",
 			codeBlock: NoBlock,
 			args: [],
 		),
 		97: (
 			size: 4,
-			name: "popPosX",
+			name: "popXPosition",
 			codeBlock: NoBlock,
 			args: [],
 		),
 		98: (
 			size: 8,
-			name: "setPositionY",
+			name: "setYPosition",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -1694,7 +1697,7 @@ https://github.com/dobosken/bbscript
 		),
 		99: (
 			size: 8,
-			name: "modifyPositionY",
+			name: "addYPosition",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -1702,19 +1705,19 @@ https://github.com/dobosken/bbscript
 		),
 		100: (
 			size: 4,
-			name: "pushPosY",
+			name: "pushYPosition",
 			codeBlock: NoBlock,
 			args: [],
 		),
 		101: (
 			size: 4,
-			name: "popPosY",
+			name: "popYPosition",
 			codeBlock: NoBlock,
 			args: [],
 		),
 		102: (
 			size: 12,
-			name: "randAddPosX",
+			name: "addXPositionRandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -1723,7 +1726,7 @@ https://github.com/dobosken/bbscript
 		),
 		103: (
 			size: 12,
-			name: "randAddPosY",
+			name: "addYPositionRandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -1732,7 +1735,7 @@ https://github.com/dobosken/bbscript
 		),
 		104: (
 			size: 12,
-			name: "randAddPosXRaw",
+			name: "addXPositionRawRandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -1741,7 +1744,7 @@ https://github.com/dobosken/bbscript
 		),
 		105: (
 			size: 8,
-			name: "physicsImpulseX",
+			name: "setXSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -1749,7 +1752,7 @@ https://github.com/dobosken/bbscript
 		),
 		107: (
 			size: 8,
-			name: "addVelocityX",
+			name: "addXSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -1757,19 +1760,19 @@ https://github.com/dobosken/bbscript
 		),
 		109: (
 			size: 4,
-			name: "pushSpeedX",
+			name: "pushXSpeed",
 			codeBlock: NoBlock,
 			args: [],
 		),
 		110: (
 			size: 4,
-			name: "popSpeedX",
+			name: "popXSpeed",
 			codeBlock: NoBlock,
 			args: [],
 		),
 		111: (
 			size: 8,
-			name: "perSpeedX",
+			name: "percentageXSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -1777,7 +1780,7 @@ https://github.com/dobosken/bbscript
 		),
 		112: (
 			size: 8,
-			name: "physicsImpulseY",
+			name: "setYSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -1785,7 +1788,7 @@ https://github.com/dobosken/bbscript
 		),
 		113: (
 			size: 8,
-			name: "addVelocityY",
+			name: "addYSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -1793,19 +1796,19 @@ https://github.com/dobosken/bbscript
 		),
 		114: (
 			size: 4,
-			name: "pushSpeedY",
+			name: "pushYSpeed",
 			codeBlock: NoBlock,
 			args: [],
 		),
 		115: (
 			size: 4,
-			name: "popSpeedY",
+			name: "popYSpeed",
 			codeBlock: NoBlock,
 			args: [],
 		),
 		116: (
 			size: 8,
-			name: "perSpeedY",
+			name: "percentageYSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -1813,7 +1816,7 @@ https://github.com/dobosken/bbscript
 		),
 		117: (
 			size: 12,
-			name: "randAddSpeedX",
+			name: "addXSpeedandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -1822,7 +1825,7 @@ https://github.com/dobosken/bbscript
 		),
 		118: (
 			size: 12,
-			name: "randAddSpeedY",
+			name: "addYSpeedandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -1831,7 +1834,7 @@ https://github.com/dobosken/bbscript
 		),
 		119: (
 			size: 12,
-			name: "randAddSpeedXRaw",
+			name: "addXSpeedRawRandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -1884,7 +1887,7 @@ https://github.com/dobosken/bbscript
 		),
 		126: (
 			size: 8,
-			name: "perAcceleration",
+			name: "percentageAcceleration",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -1920,7 +1923,7 @@ https://github.com/dobosken/bbscript
 		),
 		131: (
 			size: 8,
-			name: "perGravity",
+			name: "percentageGravity",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -1928,7 +1931,7 @@ https://github.com/dobosken/bbscript
 		),
 		132: (
 			size: 12,
-			name: "randAddAcceleration",
+			name: "addAccelerationRandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -1937,7 +1940,7 @@ https://github.com/dobosken/bbscript
 		),
 		133: (
 			size: 12,
-			name: "randAddGravity",
+			name: "addGravityRandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -1946,7 +1949,7 @@ https://github.com/dobosken/bbscript
 		),
 		134: (
 			size: 12,
-			name: "randAddAccelerationRaw",
+			name: "addAccelerationRawRandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -1955,7 +1958,7 @@ https://github.com/dobosken/bbscript
 		),
 		135: (
 			size: 4,
-			name: "resetGravity",
+			name: "objectGravity",
 			codeBlock: NoBlock,
 			args: [],
 		),
@@ -1967,7 +1970,7 @@ https://github.com/dobosken/bbscript
 		),
 		137: (
 			size: 8,
-			name: "physicsXImpulseIfVelocityMatchesSign",
+			name: "setInertia",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2011,7 +2014,7 @@ https://github.com/dobosken/bbscript
 		),
 		143: (
 			size: 8,
-			name: "setCarriedMomentumPercentage",
+			name: "percentageInertia",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2019,7 +2022,7 @@ https://github.com/dobosken/bbscript
 		),
 		144: (
 			size: 8,
-			name: "inertiaIgnore",
+			name: "ignoreInertia",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2027,7 +2030,7 @@ https://github.com/dobosken/bbscript
 		),
 		145: (
 			size: 12,
-			name: "randAddInertia",
+			name: "addInertiaRandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2036,7 +2039,7 @@ https://github.com/dobosken/bbscript
 		),
 		146: (
 			size: 12,
-			name: "randAddInertiaRaw",
+			name: "addInertiaRawRandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2051,7 +2054,7 @@ https://github.com/dobosken/bbscript
 		),
 		148: (
 			size: 8,
-			name: "setObjectWidth",
+			name: "setXScale",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2059,7 +2062,7 @@ https://github.com/dobosken/bbscript
 		),
 		149: (
 			size: 8,
-			name: "addObjectWidth",
+			name: "addXScale",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2067,7 +2070,7 @@ https://github.com/dobosken/bbscript
 		),
 		150: (
 			size: 8,
-			name: "perScaleX",
+			name: "percentageXScale",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2075,7 +2078,7 @@ https://github.com/dobosken/bbscript
 		),
 		151: (
 			size: 8,
-			name: "setScaleSpeedX",
+			name: "setXScaleSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2083,7 +2086,7 @@ https://github.com/dobosken/bbscript
 		),
 		152: (
 			size: 8,
-			name: "addScaleSpeedX",
+			name: "addXScaleSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2091,7 +2094,7 @@ https://github.com/dobosken/bbscript
 		),
 		153: (
 			size: 8,
-			name: "perScaleSpeedX",
+			name: "percentageXScaleSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2099,7 +2102,7 @@ https://github.com/dobosken/bbscript
 		),
 		154: (
 			size: 12,
-			name: "randAddScaleX",
+			name: "addXScaleRandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2108,7 +2111,7 @@ https://github.com/dobosken/bbscript
 		),
 		155: (
 			size: 12,
-			name: "randAddScaleSpeedX",
+			name: "addXScaleSpeedRandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2117,7 +2120,7 @@ https://github.com/dobosken/bbscript
 		),
 		156: (
 			size: 8,
-			name: "setObjectHeight",
+			name: "setYScale",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2125,7 +2128,7 @@ https://github.com/dobosken/bbscript
 		),
 		157: (
 			size: 8,
-			name: "addObjectHeight",
+			name: "addYScale",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2133,7 +2136,7 @@ https://github.com/dobosken/bbscript
 		),
 		158: (
 			size: 8,
-			name: "perScaleY",
+			name: "percentageYScale",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2141,7 +2144,7 @@ https://github.com/dobosken/bbscript
 		),
 		159: (
 			size: 8,
-			name: "setScaleSpeedY",
+			name: "setYScaleSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2149,7 +2152,7 @@ https://github.com/dobosken/bbscript
 		),
 		160: (
 			size: 8,
-			name: "addScaleSpeedY",
+			name: "addYScaleSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2157,7 +2160,7 @@ https://github.com/dobosken/bbscript
 		),
 		161: (
 			size: 8,
-			name: "perScaleSpeedY",
+			name: "percentageYScaleSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2165,7 +2168,7 @@ https://github.com/dobosken/bbscript
 		),
 		162: (
 			size: 12,
-			name: "randAddScaleY",
+			name: "addYScaleRandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2174,7 +2177,7 @@ https://github.com/dobosken/bbscript
 		),
 		163: (
 			size: 12,
-			name: "randAddScaleSpeedY",
+			name: "addYScaleSpeedRandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2215,7 +2218,7 @@ https://github.com/dobosken/bbscript
 		),
 		168: (
 			size: 8,
-			name: "perAngleSpeed",
+			name: "percentageAngleSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2223,7 +2226,7 @@ https://github.com/dobosken/bbscript
 		),
 		169: (
 			size: 12,
-			name: "randAddAngle",
+			name: "angleAddRandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2232,7 +2235,7 @@ https://github.com/dobosken/bbscript
 		),
 		170: (
 			size: 12,
-			name: "randAddAngleSpeed",
+			name: "addAngleSpeedRandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2241,7 +2244,7 @@ https://github.com/dobosken/bbscript
 		),
 		171: (
 			size: 4,
-			name: "randAngle",
+			name: "angleRandom",
 			codeBlock: NoBlock,
 			args: [],
 		),
@@ -2279,7 +2282,7 @@ https://github.com/dobosken/bbscript
 		),
 		176: (
 			size: 8,
-			name: "haltMomentum",
+			name: "resetSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2314,7 +2317,7 @@ https://github.com/dobosken/bbscript
 		),
 		180: (
 			size: 8,
-			name: "setObjectDepth",
+			name: "setZScale",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2322,7 +2325,7 @@ https://github.com/dobosken/bbscript
 		),
 		181: (
 			size: 8,
-			name: "addObjectDepth",
+			name: "addZScale",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2330,7 +2333,7 @@ https://github.com/dobosken/bbscript
 		),
 		182: (
 			size: 8,
-			name: "perScaleZ",
+			name: "percentageZScale",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2338,7 +2341,7 @@ https://github.com/dobosken/bbscript
 		),
 		183: (
 			size: 8,
-			name: "setScaleSpeedZ",
+			name: "setZScaleSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2346,7 +2349,7 @@ https://github.com/dobosken/bbscript
 		),
 		184: (
 			size: 8,
-			name: "addScaleSpeedZ",
+			name: "addZScaleSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2354,7 +2357,7 @@ https://github.com/dobosken/bbscript
 		),
 		185: (
 			size: 8,
-			name: "perScaleSpeedZ",
+			name: "percentageZScaleSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2362,7 +2365,7 @@ https://github.com/dobosken/bbscript
 		),
 		186: (
 			size: 12,
-			name: "randAddScaleZ",
+			name: "addZScaleRandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2371,7 +2374,7 @@ https://github.com/dobosken/bbscript
 		),
 		187: (
 			size: 12,
-			name: "randAddScaleSpeedZ",
+			name: "addZScaleSpeedRandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2380,7 +2383,7 @@ https://github.com/dobosken/bbscript
 		),
 		188: (
 			size: 8,
-			name: "setObjectSize",
+			name: "setScale",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2388,7 +2391,7 @@ https://github.com/dobosken/bbscript
 		),
 		189: (
 			size: 8,
-			name: "addObjectSize",
+			name: "addScale",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2396,7 +2399,7 @@ https://github.com/dobosken/bbscript
 		),
 		190: (
 			size: 8,
-			name: "perScale",
+			name: "percentageScale",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2420,7 +2423,7 @@ https://github.com/dobosken/bbscript
 		),
 		193: (
 			size: 8,
-			name: "perScaleSpeed",
+			name: "percentagesetScaleSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2428,7 +2431,7 @@ https://github.com/dobosken/bbscript
 		),
 		194: (
 			size: 12,
-			name: "randAddScale",
+			name: "addScaleRandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -2437,7 +2440,7 @@ https://github.com/dobosken/bbscript
 		),
 		195: (
 			size: 12,
-			name: "randAddScaleSpeed",
+			name: "addScaleSpeedRandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3032,7 +3035,7 @@ https://github.com/dobosken/bbscript
 		),
 		338: (
 			size: 8,
-			name: "multiplyAlphaColor",
+			name: "setColorAlpha",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3040,7 +3043,7 @@ https://github.com/dobosken/bbscript
 		),
 		339: (
 			size: 8,
-			name: "addAlpha",
+			name: "addColorAlpha",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3048,7 +3051,7 @@ https://github.com/dobosken/bbscript
 		),
 		340: (
 			size: 8,
-			name: "perAlpha",
+			name: "percentageColorAlpha",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3056,7 +3059,7 @@ https://github.com/dobosken/bbscript
 		),
 		341: (
 			size: 8,
-			name: "setAlphaSpeed",
+			name: "setColorAlphaSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3064,7 +3067,7 @@ https://github.com/dobosken/bbscript
 		),
 		342: (
 			size: 8,
-			name: "addAlphaSpeed",
+			name: "addColorAlphaSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3072,7 +3075,7 @@ https://github.com/dobosken/bbscript
 		),
 		343: (
 			size: 8,
-			name: "perAlphaSpeed",
+			name: "percentageColorAlphaSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3080,7 +3083,7 @@ https://github.com/dobosken/bbscript
 		),
 		344: (
 			size: 8,
-			name: "multiplyRedColor",
+			name: "setColorRed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3088,7 +3091,7 @@ https://github.com/dobosken/bbscript
 		),
 		345: (
 			size: 8,
-			name: "addRed",
+			name: "addColorRed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3096,7 +3099,7 @@ https://github.com/dobosken/bbscript
 		),
 		346: (
 			size: 8,
-			name: "perRed",
+			name: "percentageColorRed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3104,7 +3107,7 @@ https://github.com/dobosken/bbscript
 		),
 		347: (
 			size: 8,
-			name: "setRedSpeed",
+			name: "setColorRedSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3112,7 +3115,7 @@ https://github.com/dobosken/bbscript
 		),
 		348: (
 			size: 8,
-			name: "addRedSpeed",
+			name: "addColorRedSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3120,7 +3123,7 @@ https://github.com/dobosken/bbscript
 		),
 		349: (
 			size: 8,
-			name: "perRedSpeed",
+			name: "percentageColorRedSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3128,7 +3131,7 @@ https://github.com/dobosken/bbscript
 		),
 		350: (
 			size: 8,
-			name: "multiplyGreenColor",
+			name: "setColorGreen",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3136,7 +3139,7 @@ https://github.com/dobosken/bbscript
 		),
 		351: (
 			size: 8,
-			name: "addGreen",
+			name: "addColorGreen",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3144,7 +3147,7 @@ https://github.com/dobosken/bbscript
 		),
 		352: (
 			size: 8,
-			name: "perGreen",
+			name: "percentageColorGreen",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3152,7 +3155,7 @@ https://github.com/dobosken/bbscript
 		),
 		353: (
 			size: 8,
-			name: "setGreenSpeed",
+			name: "setColorGreenSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3160,7 +3163,7 @@ https://github.com/dobosken/bbscript
 		),
 		354: (
 			size: 8,
-			name: "addGreenSpeed",
+			name: "addColorGreenSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3168,7 +3171,7 @@ https://github.com/dobosken/bbscript
 		),
 		355: (
 			size: 8,
-			name: "perGreenSpeed",
+			name: "percentageColorGreenSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3176,7 +3179,7 @@ https://github.com/dobosken/bbscript
 		),
 		356: (
 			size: 8,
-			name: "multiplyBlueColor",
+			name: "setColorBlue",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3184,7 +3187,7 @@ https://github.com/dobosken/bbscript
 		),
 		357: (
 			size: 8,
-			name: "addBlue",
+			name: "addColorBlue",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3192,7 +3195,7 @@ https://github.com/dobosken/bbscript
 		),
 		358: (
 			size: 8,
-			name: "perBlue",
+			name: "percentageColorBlue",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3200,7 +3203,7 @@ https://github.com/dobosken/bbscript
 		),
 		359: (
 			size: 8,
-			name: "setBlueSpeed",
+			name: "setColorBlueSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3208,7 +3211,7 @@ https://github.com/dobosken/bbscript
 		),
 		360: (
 			size: 8,
-			name: "addBlueSpeed",
+			name: "addColorBlueSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3216,7 +3219,7 @@ https://github.com/dobosken/bbscript
 		),
 		361: (
 			size: 8,
-			name: "perBlueSpeed",
+			name: "percentageColorBlueSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3224,7 +3227,7 @@ https://github.com/dobosken/bbscript
 		),
 		362: (
 			size: 12,
-			name: "setDestColor",
+			name: "setColorDest",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3241,7 +3244,7 @@ https://github.com/dobosken/bbscript
 		),
 		364: (
 			size: 20,
-			name: "multiplyColor",
+			name: "setColorRGBA",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3723,7 +3726,7 @@ https://github.com/dobosken/bbscript
 		),
 		449: (
 			size: 40,
-			name: "createParticleArg",
+			name: "createParticleWithArg",
 			codeBlock: NoBlock,
 			args: [
 				String32,
@@ -4710,7 +4713,7 @@ https://github.com/dobosken/bbscript
 		),
 		754: (
 			size: 8,
-			name: "hitAirPushbackX",
+			name: "attackXKnockback",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -4718,7 +4721,7 @@ https://github.com/dobosken/bbscript
 		),
 		755: (
 			size: 4,
-			name: "atkVectorXReset",
+			name: "resetAttackXKnockback",
 			codeBlock: NoBlock,
 			args: [],
 		),
@@ -4756,7 +4759,7 @@ https://github.com/dobosken/bbscript
 		),
 		766: (
 			size: 8,
-			name: "hitAirPushbackY",
+			name: "attackYKnockback",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -4764,7 +4767,7 @@ https://github.com/dobosken/bbscript
 		),
 		767: (
 			size: 4,
-			name: "atkVectorYReset",
+			name: "resetAttackYKnockback",
 			codeBlock: NoBlock,
 			args: [],
 		),
@@ -4794,7 +4797,7 @@ https://github.com/dobosken/bbscript
 		),
 		778: (
 			size: 8,
-			name: "hitGravity",
+			name: "attackGravity",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -4802,7 +4805,7 @@ https://github.com/dobosken/bbscript
 		),
 		779: (
 			size: 4,
-			name: "atkGravityReset",
+			name: "resetAttackGravity",
 			codeBlock: NoBlock,
 			args: [],
 		),
@@ -5069,7 +5072,7 @@ https://github.com/dobosken/bbscript
 		),
 		818: (
 			size: 8,
-			name: "hitstunAmount",
+			name: "groundHitstun",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -5097,7 +5100,7 @@ https://github.com/dobosken/bbscript
 		),
 		830: (
 			size: 8,
-			name: "untechAmount",
+			name: "airHitstun",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -5657,7 +5660,7 @@ https://github.com/dobosken/bbscript
 		),
 		945: (
 			size: 8,
-			name: "atkDownTuigeki",
+			name: "attackPursuit",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -5665,7 +5668,7 @@ https://github.com/dobosken/bbscript
 		),
 		946: (
 			size: 8,
-			name: "hitOTG",
+			name: "attackOTG",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -5720,7 +5723,7 @@ https://github.com/dobosken/bbscript
 		),
 		995: (
 			size: 8,
-			name: "hitStop",
+			name: "hitstop",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -5794,7 +5797,7 @@ https://github.com/dobosken/bbscript
 		),
 		1023: (
 			size: 8,
-			name: "blockstunAmount",
+			name: "blockstun",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -5910,7 +5913,7 @@ https://github.com/dobosken/bbscript
 		),
 		1045: (
 			size: 40,
-			name: "atkDamageEffect",
+			name: "attackDamageEffect",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -5919,7 +5922,7 @@ https://github.com/dobosken/bbscript
 		),
 		1046: (
 			size: 40,
-			name: "atkGuardEffect",
+			name: "attackGuardEffect",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -5960,7 +5963,7 @@ https://github.com/dobosken/bbscript
 		),
 		1052: (
 			size: 8,
-			name: "atkEffectScale",
+			name: "attackEffectScale",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -5984,7 +5987,7 @@ https://github.com/dobosken/bbscript
 		),
 		1056: (
 			size: 8,
-			name: "whiffCrouch",
+			name: "attackWhiffCrouch",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -6008,7 +6011,7 @@ https://github.com/dobosken/bbscript
 		),
 		1059: (
 			size: 8,
-			name: "killType",
+			name: "attackKillType",
 			codeBlock: NoBlock,
 			args: [
 				Enum("e_killtype"),
@@ -6048,7 +6051,7 @@ https://github.com/dobosken/bbscript
 		),
 		1064: (
 			size: 36,
-			name: "atkNextHitActionName",
+			name: "applyAttackLockWithStateName",
 			codeBlock: NoBlock,
 			args: [
 				String32,
@@ -6290,7 +6293,7 @@ https://github.com/dobosken/bbscript
 		),
 		1095: (
 			size: 8,
-			name: "atkHoseiGuardBalance",
+			name: "damageScalingOverride",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -6314,7 +6317,7 @@ https://github.com/dobosken/bbscript
 		),
 		1098: (
 			size: 8,
-			name: "guardType",
+			name: "attackGuardtype",
 			codeBlock: NoBlock,
 			args: [
 				Enum("e_guardtype"),
@@ -6346,7 +6349,7 @@ https://github.com/dobosken/bbscript
 		),
 		1102: (
 			size: 8,
-			name: "pushbackX",
+			name: "guardPushback",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -6994,13 +6997,19 @@ https://github.com/dobosken/bbscript
 		),
 		1185: (
 			size: 24,
-			name: "atkSuikomiX",
+			name: "attackXSuction",
 			codeBlock: NoBlock,
-			args: [],
+			args: [
+				Number,
+				Number,
+				Number,
+				Number,
+				Number,
+			],
 		),
 		1186: (
 			size: 24,
-			name: "atkSuikomiY",
+			name: "attackYSuction",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -7180,7 +7189,7 @@ https://github.com/dobosken/bbscript
 		),
 		1207: (
 			size: 28,
-			name: "atkSuikomiXActPosBase",
+			name: "attackXSuctionBaseObject",
 			codeBlock: NoBlock,
 			args: [
 				Enum("e_objects"),
@@ -7193,7 +7202,7 @@ https://github.com/dobosken/bbscript
 		),
 		1208: (
 			size: 28,
-			name: "atkSuikomiYActPosBase",
+			name: "attackYSuctionBaseObject",
 			codeBlock: NoBlock,
 			args: [
 				Enum("e_objects"),
@@ -7747,7 +7756,7 @@ https://github.com/dobosken/bbscript
 		),
 		1276: (
 			size: 8,
-			name: "initCooldownTimeAssist",
+			name: "initCooldownTimeAssist_AB",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -7996,7 +8005,7 @@ https://github.com/dobosken/bbscript
 		),
 		1307: (
 			size: 8,
-			name: "initTensionBalanceFront",
+			name: "initCooldownTimeAssist_C",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -9111,7 +9120,7 @@ https://github.com/dobosken/bbscript
 		),
 		1639: (
 			size: 36,
-			name: "cancel_whiff_",
+			name: "AddARendaChain",
 			codeBlock: NoBlock,
 			args: [
 				String32,
@@ -9372,7 +9381,7 @@ https://github.com/dobosken/bbscript
 		),
 		1674: (
 			size: 36,
-			name: "cancel_autocombo",
+			name: "AddARendaChainPD",
 			codeBlock: NoBlock,
 			args: [
 				String32,
@@ -9600,7 +9609,7 @@ https://github.com/dobosken/bbscript
 		),
 		1731: (
 			size: 8,
-			name: "setDepth",
+			name: "setZPosition",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -9608,7 +9617,7 @@ https://github.com/dobosken/bbscript
 		),
 		1732: (
 			size: 8,
-			name: "addDepth",
+			name: "addZPosition",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -9616,19 +9625,19 @@ https://github.com/dobosken/bbscript
 		),
 		1733: (
 			size: 4,
-			name: "pushPosZ",
+			name: "pushZPosition",
 			codeBlock: NoBlock,
 			args: [],
 		),
 		1734: (
 			size: 4,
-			name: "popPosZ",
+			name: "popZPosition",
 			codeBlock: NoBlock,
 			args: [],
 		),
 		1735: (
 			size: 12,
-			name: "randAddPosZ",
+			name: "addZPositionRandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -9637,7 +9646,7 @@ https://github.com/dobosken/bbscript
 		),
 		1736: (
 			size: 8,
-			name: "setSpeedZ",
+			name: "setZSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -9645,7 +9654,7 @@ https://github.com/dobosken/bbscript
 		),
 		1737: (
 			size: 8,
-			name: "addSpeedZ",
+			name: "addZSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -9653,19 +9662,19 @@ https://github.com/dobosken/bbscript
 		),
 		1738: (
 			size: 4,
-			name: "pushSpeedZ",
+			name: "pushZSpeed",
 			codeBlock: NoBlock,
 			args: [],
 		),
 		1739: (
 			size: 4,
-			name: "popSpeedZ",
+			name: "popZSpeed",
 			codeBlock: NoBlock,
 			args: [],
 		),
 		1740: (
 			size: 8,
-			name: "perSpeedZ",
+			name: "percentageZSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -9673,7 +9682,7 @@ https://github.com/dobosken/bbscript
 		),
 		1741: (
 			size: 12,
-			name: "randAddSpeedZ",
+			name: "addZSpeedRandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -9682,7 +9691,7 @@ https://github.com/dobosken/bbscript
 		),
 		1742: (
 			size: 8,
-			name: "setAccelerationZ",
+			name: "setZAcceleration",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -9690,7 +9699,7 @@ https://github.com/dobosken/bbscript
 		),
 		1743: (
 			size: 8,
-			name: "addAccelerationZ",
+			name: "addZAcceleration",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -9698,19 +9707,19 @@ https://github.com/dobosken/bbscript
 		),
 		1744: (
 			size: 4,
-			name: "pushAccelerationZ",
+			name: "pushZAcceleration",
 			codeBlock: NoBlock,
 			args: [],
 		),
 		1745: (
 			size: 4,
-			name: "popAccelerationZ",
+			name: "popZAcceleration",
 			codeBlock: NoBlock,
 			args: [],
 		),
 		1746: (
 			size: 8,
-			name: "perAccelerationZ",
+			name: "percentageZAcceleration",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -9718,7 +9727,7 @@ https://github.com/dobosken/bbscript
 		),
 		1747: (
 			size: 12,
-			name: "randAddAccelerationZ",
+			name: "addZAccelerationRandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10808,7 +10817,7 @@ https://github.com/dobosken/bbscript
 		),
 		1978: (
 			size: 8,
-			name: "setHikariAlpha",
+			name: "setLightColorAlpha",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10816,7 +10825,7 @@ https://github.com/dobosken/bbscript
 		),
 		1979: (
 			size: 8,
-			name: "addHikariAlpha",
+			name: "addLightColorAlpha",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10824,7 +10833,7 @@ https://github.com/dobosken/bbscript
 		),
 		1980: (
 			size: 8,
-			name: "perHikariAlpha",
+			name: "percentageLightColorAlpha",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10832,7 +10841,7 @@ https://github.com/dobosken/bbscript
 		),
 		1981: (
 			size: 8,
-			name: "setHikariAlphaSpeed",
+			name: "setLightColorAlphaSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10840,7 +10849,7 @@ https://github.com/dobosken/bbscript
 		),
 		1982: (
 			size: 8,
-			name: "addHikariAlphaSpeed",
+			name: "addLightColorAlphaSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10848,7 +10857,7 @@ https://github.com/dobosken/bbscript
 		),
 		1983: (
 			size: 8,
-			name: "perHikariAlphaSpeed",
+			name: "percentageLightColorAlphaSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10856,7 +10865,7 @@ https://github.com/dobosken/bbscript
 		),
 		1984: (
 			size: 8,
-			name: "setHikariRed",
+			name: "setLightColorRed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10864,7 +10873,7 @@ https://github.com/dobosken/bbscript
 		),
 		1985: (
 			size: 8,
-			name: "addHikariRed",
+			name: "addLightColorRed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10872,7 +10881,7 @@ https://github.com/dobosken/bbscript
 		),
 		1986: (
 			size: 8,
-			name: "perHikariRed",
+			name: "percentageLightColorRed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10880,7 +10889,7 @@ https://github.com/dobosken/bbscript
 		),
 		1987: (
 			size: 8,
-			name: "fadeColorRed",
+			name: "setLightColorRedSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10888,7 +10897,7 @@ https://github.com/dobosken/bbscript
 		),
 		1988: (
 			size: 8,
-			name: "addHikariRedSpeed",
+			name: "addLightColorRedSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10896,7 +10905,7 @@ https://github.com/dobosken/bbscript
 		),
 		1989: (
 			size: 8,
-			name: "perHikariRedSpeed",
+			name: "percentageLightColorRedSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10904,7 +10913,7 @@ https://github.com/dobosken/bbscript
 		),
 		1990: (
 			size: 8,
-			name: "setHikariGreen",
+			name: "setLightColorGreen",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10912,7 +10921,7 @@ https://github.com/dobosken/bbscript
 		),
 		1991: (
 			size: 8,
-			name: "addHikariGreen",
+			name: "addLightColorGreen",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10920,7 +10929,7 @@ https://github.com/dobosken/bbscript
 		),
 		1992: (
 			size: 8,
-			name: "perHikariGreen",
+			name: "percentageLightColorGreen",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10928,7 +10937,7 @@ https://github.com/dobosken/bbscript
 		),
 		1993: (
 			size: 8,
-			name: "fadeColorGreen",
+			name: "setLightColorGreenSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10936,7 +10945,7 @@ https://github.com/dobosken/bbscript
 		),
 		1994: (
 			size: 8,
-			name: "addHikariGreenSpeed",
+			name: "addLightColorGreenSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10944,7 +10953,7 @@ https://github.com/dobosken/bbscript
 		),
 		1995: (
 			size: 8,
-			name: "perHikariGreenSpeed",
+			name: "percentageLightColorGreenSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10952,7 +10961,7 @@ https://github.com/dobosken/bbscript
 		),
 		1996: (
 			size: 8,
-			name: "setHikariBlue",
+			name: "setLightColorBlue",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10960,7 +10969,7 @@ https://github.com/dobosken/bbscript
 		),
 		1997: (
 			size: 8,
-			name: "addHikariBlue",
+			name: "addLightColorBlue",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10968,7 +10977,7 @@ https://github.com/dobosken/bbscript
 		),
 		1998: (
 			size: 8,
-			name: "perHikariBlue",
+			name: "percentageLightColorBlue",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10976,7 +10985,7 @@ https://github.com/dobosken/bbscript
 		),
 		1999: (
 			size: 8,
-			name: "fadeColorBlue",
+			name: "setLightColorBlueSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10984,7 +10993,7 @@ https://github.com/dobosken/bbscript
 		),
 		2000: (
 			size: 8,
-			name: "addHikariBlueSpeed",
+			name: "addLightColorBlueSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10992,7 +11001,7 @@ https://github.com/dobosken/bbscript
 		),
 		2001: (
 			size: 8,
-			name: "perHikariBlueSpeed",
+			name: "percentageLightColorBlueSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -11000,7 +11009,7 @@ https://github.com/dobosken/bbscript
 		),
 		2002: (
 			size: 12,
-			name: "setHikariDestColor",
+			name: "setLightColorDest",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -11009,7 +11018,7 @@ https://github.com/dobosken/bbscript
 		),
 		2003: (
 			size: 8,
-			name: "addColor",
+			name: "setLightColor",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -11055,7 +11064,7 @@ https://github.com/dobosken/bbscript
 		),
 		2009: (
 			size: 16,
-			name: "setHikariColorRGB",
+			name: "setLightColorRGB",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -12447,7 +12456,7 @@ https://github.com/dobosken/bbscript
 		),
 		2193: (
 			size: 16,
-			name: "exPointFReset",
+			name: "setEX_POINT_F",
 			codeBlock: NoBlock,
 			args: [
 				Enum("e_attachmentpoint"),
@@ -12457,7 +12466,7 @@ https://github.com/dobosken/bbscript
 		),
 		2194: (
 			size: 36,
-			name: "exPointFRandAdd",
+			name: "addEX_POINT_FRandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -12472,7 +12481,7 @@ https://github.com/dobosken/bbscript
 		),
 		2195: (
 			size: 20,
-			name: "exPointFAdd",
+			name: "addEX_POINT_F",
 			codeBlock: NoBlock,
 			args: [
 				AccessedValue,
@@ -12725,7 +12734,7 @@ https://github.com/dobosken/bbscript
 		),
 		2229: (
 			size: 8,
-			name: "horizontalMomentum",
+			name: "xSpeedPerFrame",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -12733,7 +12742,7 @@ https://github.com/dobosken/bbscript
 		),
 		2230: (
 			size: 8,
-			name: "verticalMomentum",
+			name: "ySpeedPerFrame",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -12985,19 +12994,19 @@ https://github.com/dobosken/bbscript
 		),
 		2269: (
 			size: 4,
-			name: "createArg_Init",
+			name: "setArg_init",
 			codeBlock: NoBlock,
 			args: [],
 		),
 		2270: (
 			size: 12,
-			name: "createArg_NoAssert",
+			name: "setArg_noAssert",
 			codeBlock: NoBlock,
 			args: [],
 		),
 		2273: (
 			size: 12,
-			name: "createArg_Scale",
+			name: "setArg_scale",
 			codeBlock: NoBlock,
 			args: [
 				AccessedValue,
@@ -13005,7 +13014,7 @@ https://github.com/dobosken/bbscript
 		),
 		2274: (
 			size: 12,
-			name: "createArg_ScaleMult",
+			name: "setArg_multiplyScale",
 			codeBlock: NoBlock,
 			args: [
 				AccessedValue,
@@ -13013,7 +13022,7 @@ https://github.com/dobosken/bbscript
 		),
 		2275: (
 			size: 12,
-			name: "createArg_Angle",
+			name: "setArg_angle",
 			codeBlock: NoBlock,
 			args: [
 				AccessedValue,
@@ -13021,7 +13030,7 @@ https://github.com/dobosken/bbscript
 		),
 		2276: (
 			size: 12,
-			name: "createArg_AnglePlus",
+			name: "setArg_addAngle",
 			codeBlock: NoBlock,
 			args: [
 				AccessedValue,
@@ -13029,7 +13038,7 @@ https://github.com/dobosken/bbscript
 		),
 		2277: (
 			size: 8,
-			name: "createArg_Direction",
+			name: "setArg_setDirection",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -13037,18 +13046,16 @@ https://github.com/dobosken/bbscript
 		),
 		2279: (
 			size: 20,
-			name: "createArg_HikitsugiVal",
+			name: "setArg_objectParameters",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
-				Number,
-				Number,
+				AccessedValue,
+				AccessedValue,
 			],
 		),
 		2280: (
 			size: 12,
-			name: "createArg_HikariColor",
+			name: "setArg_setLightColor",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -13057,7 +13064,7 @@ https://github.com/dobosken/bbscript
 		),
 		2281: (
 			size: 12,
-			name: "createArg_Color",
+			name: "setArg_setColor",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -13066,7 +13073,7 @@ https://github.com/dobosken/bbscript
 		),
 		2282: (
 			size: 8,
-			name: "createArg_TransPriority",
+			name: "setArg_transPriority",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -13074,7 +13081,7 @@ https://github.com/dobosken/bbscript
 		),
 		2283: (
 			size: 12,
-			name: "createArg_AngleY",
+			name: "setArg_setYAngle",
 			codeBlock: NoBlock,
 			args: [
 				AccessedValue,
@@ -13082,7 +13089,7 @@ https://github.com/dobosken/bbscript
 		),
 		2284: (
 			size: 12,
-			name: "createArg_ScaleX",
+			name: "setArg_setXScale",
 			codeBlock: NoBlock,
 			args: [
 				AccessedValue,
@@ -13090,7 +13097,7 @@ https://github.com/dobosken/bbscript
 		),
 		2285: (
 			size: 12,
-			name: "createArg_ScaleMultX",
+			name: "setArg_multiplyXScale",
 			codeBlock: NoBlock,
 			args: [
 				AccessedValue,
@@ -13098,7 +13105,7 @@ https://github.com/dobosken/bbscript
 		),
 		2286: (
 			size: 12,
-			name: "createArg_ScaleY",
+			name: "setArg_setYScale",
 			codeBlock: NoBlock,
 			args: [
 				AccessedValue,
@@ -13106,7 +13113,7 @@ https://github.com/dobosken/bbscript
 		),
 		2287: (
 			size: 12,
-			name: "createArg_ScaleMultY",
+			name: "setArg_multiplyYScale",
 			codeBlock: NoBlock,
 			args: [
 				AccessedValue,
@@ -13114,7 +13121,7 @@ https://github.com/dobosken/bbscript
 		),
 		2288: (
 			size: 12,
-			name: "createArg_ScaleZ",
+			name: "setArg_setZScale",
 			codeBlock: NoBlock,
 			args: [
 				AccessedValue,
@@ -13122,7 +13129,7 @@ https://github.com/dobosken/bbscript
 		),
 		2289: (
 			size: 12,
-			name: "createArg_ScaleMultZ",
+			name: "setArg_multiplyZScale",
 			codeBlock: NoBlock,
 			args: [
 				AccessedValue,
@@ -13130,7 +13137,7 @@ https://github.com/dobosken/bbscript
 		),
 		2291: (
 			size: 8,
-			name: "createArg_ParticleUnuseMatInstance",
+			name: "setArg_ParticleUnuseMatInstance",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -13232,7 +13239,7 @@ https://github.com/dobosken/bbscript
 		),
 		2311: (
 			size: 8,
-			name: "allowHitting",
+			name: "attackTarget",
 			codeBlock: NoBlock,
 			args: [
 				Enum("e_hitteam"),
