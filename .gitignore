@@ -13,3 +13,6 @@ test_data/*
 
 # Custom buildscript for cross-compiling etc.
 build.sh
+
+# Personal .ron notes none of ya'll need to see
+/static_db/notes

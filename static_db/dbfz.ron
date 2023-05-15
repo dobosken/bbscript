@@ -2423,7 +2423,7 @@ https://github.com/dobosken/bbscript
 		),
 		193: (
 			size: 8,
-			name: "percentagesetScaleSpeed",
+			name: "percentageScaleSpeed",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -14317,7 +14317,7 @@ https://github.com/dobosken/bbscript
 		2513: (
 			size: 20,
 			name: "ifBeginCharaID",
-			codeBlock: NoBlock,
+			codeBlock: Begin,
 			args: [
 				String16,
 			],
