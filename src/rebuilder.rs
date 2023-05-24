@@ -88,7 +88,7 @@ fn assemble_script(program: Vec<BBSFunction>, db: &ScriptConfig) -> Result<Bytes
             i
         } else {
             log::trace!("could not locate instruction by name, trying by ID");
-            if let Ok(id) = instruction.name.trim_start_matches("Unknown").parse() {
+            if let Ok(id) = instruction.name.trim_start_matches("unknown").parse() {
                 if let Some(i) = db.get_by_id(id) {
                     i
                 } else {
