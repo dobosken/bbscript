@@ -2222,7 +2222,7 @@ https://github.com/dobosken/bbscript
 		),
 		169: (
 			size: 12,
-			name: "angleAddRandom",
+			name: "addAngleRandom",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -14424,7 +14424,7 @@ https://github.com/dobosken/bbscript
 		),
 		2529: (
 			size: 36,
-			name: "oSM_assiststeal",
+			name: "osmAssistSteal",
 			codeBlock: NoBlock,
 			args: [
 				String32,
