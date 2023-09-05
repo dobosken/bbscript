@@ -24,7 +24,7 @@ https://github.com/dobosken/bbscript
 			10: "BJumpCheck",
 			11: "FJumpCheck",
 			12: "EntryWait",
-			13: "LoopCount",
+			13: "ActionTime",
 			14: "EnemyDistanceX",
 			15: "EnemyDistanceY",
 			16: "IN_BATTLE",
@@ -116,7 +116,7 @@ https://github.com/dobosken/bbscript
 			102: "ExPointFX",
 			103: "ExPointFY",
 			104: "EnemyFrontDistance",
-			105: "FrameCount",
+			105: "OnIdlingTime",
 			106: "EnemyPushDistance",
 			107: "IchigekiState",
 			108: "IchigekiGage",
@@ -1295,7 +1295,7 @@ https://github.com/dobosken/bbscript
 		),
 		35: (
 			size: 40,
-			name: "jumpToStateInObject",
+			name: "jumpToLabelInObject",
 			codeBlock: NoBlock,
 			args: [
 				Enum("e_objects"),
@@ -2654,7 +2654,7 @@ https://github.com/dobosken/bbscript
 		),
 		251: (
 			size: 8,
-			name: "setNoCollision",
+			name: "enablePushCollision",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -3984,7 +3984,7 @@ https://github.com/dobosken/bbscript
 			],
 		),
 		482: (
-			size: 4,
+			size: 8,
 			name: "linkObjectCmnMaterialParam",
 			codeBlock: NoBlock,
 			args: [],
@@ -8530,7 +8530,7 @@ https://github.com/dobosken/bbscript
 		),
 		1424: (
 			size: 36,
-			name: "skillFunctionCall",
+			name: "moveSubroutine",
 			codeBlock: NoBlock,
 			args: [
 				String32,
@@ -11171,7 +11171,7 @@ https://github.com/dobosken/bbscript
 		),
 		2030: (
 			size: 36,
-			name: "checkLastStateName",
+			name: "checkPreviousStateName",
 			codeBlock: NoBlock,
 			args: [
 				String32,
@@ -13384,8 +13384,7 @@ https://github.com/dobosken/bbscript
 			name: "addTensionUnscaled",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
+				AccessedValue,
 			],
 		),
 		2331: (
