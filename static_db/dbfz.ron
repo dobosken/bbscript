@@ -1,6 +1,6 @@
 /*
 Broscar#4765
-ron_version: 1.0.2
+ron_version: 1.0.3
 https://github.com/dobosken/bbscript
 */
 
@@ -6993,7 +6993,7 @@ https://github.com/dobosken/bbscript
 		),
 		1185: (
 			size: 24,
-			name: "attackXSuction",
+			name: "attackXVacuum",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -7005,7 +7005,7 @@ https://github.com/dobosken/bbscript
 		),
 		1186: (
 			size: 24,
-			name: "attackYSuction",
+			name: "attackYVacuum",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -11156,9 +11156,9 @@ https://github.com/dobosken/bbscript
 			name: "homing",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
-				Number,
+				Enum("e_objects"),
+				Enum("e_objects"),
+				Enum("e_attachmentpoint"),
 				Number,
 				Number,
 				Number,
