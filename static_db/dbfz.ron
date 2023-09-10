@@ -1286,19 +1286,19 @@ https://github.com/dobosken/bbscript
 		),
 		34: (
 			size: 40,
-			name: "interruptAction",
+			name: "jumpToStateUpon",
 			codeBlock: NoBlock,
 			args: [
-				Number,
+				Enum("e_interrupts"),
 				String32,
 			],
 		),
 		35: (
 			size: 40,
-			name: "jumpToLabelInObject",
+			name: "jumpToLabelUpon",
 			codeBlock: NoBlock,
 			args: [
-				Enum("e_objects"),
+				Enum("e_interrupts"),
 				String32,
 			],
 		),
