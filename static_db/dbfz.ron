@@ -1511,8 +1511,7 @@ https://github.com/dobosken/bbscript
 			codeBlock: NoBlock,
 			args: [
 				String32,
-				Number,
-				Number,
+				AccessedValue,
 			],
 		),
 		60: (
@@ -8592,7 +8591,7 @@ https://github.com/dobosken/bbscript
 		),
 		1432: (
 			size: 36,
-			name: "move_ShareChain",
+			name: "moveShareChain",
 			codeBlock: NoBlock,
 			args: [
 				String32,
