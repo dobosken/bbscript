@@ -1419,7 +1419,7 @@ https://github.com/dobosken/bbscript
 			name: "checkFlag",
 			codeBlock: NoBlock,
 			args: [
-				Number,
+				Enum("e_movecondition"),
 			],
 		),
 		50: (
