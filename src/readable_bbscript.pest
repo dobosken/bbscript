@@ -13,8 +13,8 @@ function_name = @{
 args = { arg ~ ("," ~ arg)* ~ ","? }
 
 arg = {
-  "s16'" ~ string16 ~ "'"
-| "s32'" ~ string32 ~ "'"
+  "s16(" ~ string16 ~ ")"
+| "s32(" ~ string32 ~ ")"
 | "var(" ~ (named_var | var_id) ~ ")"
 | "int(" ~ tagged_value ~ ")"
 | "BadTag(" ~ unknown_tag ~ "," ~ tagged_value ~ ")"
@@ -68,7 +68,7 @@ ident_char = {
 }
 
 string_char = {
-  ( "\\'" | (!"'" ~ ANY) )
+  ( "\\(" | (!")" ~ ANY) )
 }
 
 COMMENT = _{

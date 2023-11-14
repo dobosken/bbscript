@@ -31,8 +31,8 @@ fn arg_to_string(config: &ScriptConfig, arg: &ArgValue) -> Result<String, BBScri
     match arg {
         ArgValue::Unknown(data) => Ok(format!("0x{}", hex::encode_upper(data))),
         ArgValue::Number(num) => Ok(format!("{num}")),
-        ArgValue::String16(s) => Ok(format!("s16'{s}'")),
-        ArgValue::String32(s) => Ok(format!("s32'{s}'")),
+        ArgValue::String16(s) => Ok(format!("s16({s})")),
+        ArgValue::String32(s) => Ok(format!("s32({s})")),
         ArgValue::AccessedValue(_tagged @ TaggedValue::Improper { tag, value }) => {
             Ok(format!("BadTag({tag}, {value})"))
         }
@@ -334,6 +334,4 @@ fn process_string_buf(buf: &[u8]) -> String {
         .collect::<String>()
         // BRS: 0x09 to 'g'
         .replace(r"	", r"g")
-        // ASN: 0x27 to null
-        .replace(r"'", r"")
 }
