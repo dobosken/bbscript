@@ -4,9 +4,13 @@ A fork of Pangaea's original ( [super-continent/bbscript](https://github.com/sup
 
 Not implicitly incompatible with other Arcsys titles, but this fork has not been tested with anything other than DBFZ.
 
-Check out ( [dobosken/dbfz_npp](https://github.com/dobosken/dbfz_npp) ) for better BBS editing with Notepad++.
+## How to install
+
+
 
 Documentation can be found at ( [DBFZ BBS lookup](https://dobosken.github.io/dbfz_bbs_lookup/) ), but the website is not yet fully up-to-date, so make sure to keep dbfz.ron open and cross-reference the id numbers.
+
+Also check out ( [dobosken/dbfz_npp](https://github.com/dobosken/dbfz_npp) ) for better BBS editing with Notepad++.
 
 **Note: You cannot use my dbfz.ron with vanilla BBScript. You'll have to copy over the new BBScript executable as well for it to work.**
 

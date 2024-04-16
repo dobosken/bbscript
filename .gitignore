@@ -13,3 +13,5 @@ test_data/*
 
 # Personal .ron notes none of ya'll need to see
 /static_db/notes
+
+*.zip
