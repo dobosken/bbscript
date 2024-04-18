@@ -1,6 +1,6 @@
 /*
 Broscar#4765
-ron_version: 1.0.3
+ron_version: 1.0.4
 https://github.com/dobosken/bbscript
 */
 
@@ -4376,8 +4376,8 @@ https://github.com/dobosken/bbscript
 			name: "commonSetSE",
 			codeBlock: NoBlock,
 			args: [
-				String32,
 				Number,
+				String32,
 				Number,
 			],
 		),
