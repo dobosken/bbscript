@@ -1,6 +1,5 @@
 /*
-Broscar#4765
-ron_version: 1.0.4
+ron_version: 1.0.5
 https://github.com/dobosken/bbscript
 */
 
@@ -421,8 +420,8 @@ https://github.com/dobosken/bbscript
 			18: "STOP_HOLDING_KI",
 			19: "STOP_HOLDING_A1",
 			20: "NEAR_PARENT_PLAYER",
-			21: "ON_DELETE",
-			22: "ON_DRAW",
+			21: "DELETE",
+			22: "DRAW",
 			23: "SIGNAL0",
 			24: "SIGNAL1",
 			25: "SIGNAL2",
@@ -439,6 +438,7 @@ https://github.com/dobosken/bbscript
 			36: "FRAME_STEP",
 			37: "SHOT_SOUSAI_REACTION",
 			38: "PLAYER_GUARD",
+			39: "PRE_DRAW",
 			41: "ARMOR",
 			43: "MUTEKI_PRE_HITSTOP",
 			45: "DESTROY",
@@ -460,25 +460,26 @@ https://github.com/dobosken/bbscript
 			64: "MUTEKI_PRE_HITSTOP_FOR_TOBIDOUGU",
 			65: "REFLACT",
 			66: "REFLACTED",
+ 			67: "PRE_HIT_COLLISION",
 			69: "DAMAGE_2",
-			71: "ON_PLAYER_DAMAGE_AFTER_FIX_PARAM",
-			72: "ON_PLAYER_GUARD_AFTER_FIX_PARAM",
-			73: "ON_ENEMY_DAMAGE_AFTER_FIX_PARAM",
+			71: "PLAYER_DAMAGE_AFTER_FIX_PARAM",
+			72: "PLAYER_GUARD_AFTER_FIX_PARAM",
+			73: "ENEMY_DAMAGE_AFTER_FIX_PARAM",
 			74: "GUARD",
 			77: "FRAME_STEP_AFTER_EX",
-			78: "ON_ATTACK_HIT_PLAYER_DAMAGE_PRE_CTRL",
-			79: "ON_FORCE_X",
-			84: "ON_FORCE_DOWN",
-			85: "ON_MAIN_PLAYER_DAMAGE",
-			86: "ON_ATTACK_HIT_PLAYER_GUARD",
+			78: "ATTACK_HIT_PLAYER_DAMAGE_PRE_CTRL",
+			79: "FORCE_X",
+			84: "FORCE_DOWN",
+			85: "MAIN_PLAYER_DAMAGE",
+			86: "ATTACK_HIT_PLAYER_GUARD",
 			87: "Z_REVERSAL",
-			89: "ON_ATTACK_HIT_MAIN_PLAYER_DAMAGE_PRE_CTRL",
-			90: "ON_ATTACK_HIT_MAIN_PLAYER_DAMAGE",
-			91: "ON_ATTACK_HIT_MAIN_PLAYER_DAMAGE_AFTER_FIX_PARAM",
-			92: "ON_ATTACK_COLLISION_MAIN_PLAYER",
-			93: "ON_ATTACK_COLLISION_SOUSAI",
-			95: "ON_PLAYER_AFTER_EXECUTE_DAMAGE",
-			96: "ON_SOUSAI_HOMING_DASH",
+			89: "ATTACK_HIT_MAIN_PLAYER_DAMAGE_PRE_CTRL",
+			90: "ATTACK_HIT_MAIN_PLAYER_DAMAGE",
+			91: "ATTACK_HIT_MAIN_PLAYER_DAMAGE_AFTER_FIX_PARAM",
+			92: "ATTACK_COLLISION_MAIN_PLAYER",
+			93: "ATTACK_COLLISION_SOUSAI",
+			95: "PLAYER_AFTER_EXECUTE_DAMAGE",
+			96: "SOUSAI_HOMING_DASH",
 			97: "SHOT_HIT_Z_REVERSAL_ACT",
 			98: "ATTACK_HIT_PLAYER_ARMOR",
 			99: "ATTACK_HIT_PLAYER_DODGE",
@@ -500,6 +501,7 @@ https://github.com/dobosken/bbscript
 			12: "STACK_FOR_CMN_ACT",
 			13: "WINNER",
 			14: "LOSER",
+			21: "LOCKED",
 			22: "ENEMY",
 			23: "SELF",
 			24: "ATTACKER",
@@ -1009,6 +1011,10 @@ https://github.com/dobosken/bbscript
 			0: "CLOSED",
 			1: "SHOW_TEETH",
 			4: "OPEN",
+		},
+		"e_zline": {
+			0: "BACK",
+			2: "FRONT",
 		},
 	},
 	instructions: Sized({
@@ -2539,7 +2545,7 @@ https://github.com/dobosken/bbscript
 		),
 		233: (
 			size: 4,
-			name: "grabOrRelease",
+			name: "enableHitboxForced",
 			codeBlock: NoBlock,
 			args: [],
 		),
@@ -2685,7 +2691,7 @@ https://github.com/dobosken/bbscript
 		),
 		255: (
 			size: 8,
-			name: "pushFix",
+			name: "pushOnly",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -4203,7 +4209,7 @@ https://github.com/dobosken/bbscript
 		),
 		619: (
 			size: 84,
-			name: "randomVoiceLine2",
+			name: "randomVoiceNoRepeat",
 			codeBlock: NoBlock,
 			args: [
 				String16,
@@ -10652,7 +10658,7 @@ https://github.com/dobosken/bbscript
 		),
 		1928: (
 			size: 8,
-			name: "",
+			name: "subObjectIcon",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -12446,7 +12452,8 @@ https://github.com/dobosken/bbscript
 			name: "zLine",
 			codeBlock: NoBlock,
 			args: [
-				AccessedValue,
+				Enum("e_zline"),
+				Number,
 			],
 		),
 		2190: (
@@ -14413,6 +14420,7 @@ https://github.com/dobosken/bbscript
 			name: "boneControl_Position",
 			codeBlock: NoBlock,
 			args: [
+				Enum("e_objects"),
 				Number,
 			],
 		),
