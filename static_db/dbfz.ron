@@ -1,5 +1,5 @@
 /*
-ron_version: 1.0.5
+ron_version: 1.0.6
 https://github.com/dobosken/bbscript
 */
 
@@ -3016,7 +3016,7 @@ https://github.com/dobosken/bbscript
 		),
 		306: (
 			size: 4,
-			name: "dmgGuardStopCount",
+			name: "forceLeaveAllAssist",
 			codeBlock: NoBlock,
 			args: [],
 		),
@@ -4017,7 +4017,7 @@ https://github.com/dobosken/bbscript
 			args: [
 				Enum("e_attachmentpoint"),
 				Enum("e_attachmentpoint"),
-				Number,
+				Enum("e_zline"),
 			],
 		),
 		547: (
@@ -9122,10 +9122,12 @@ https://github.com/dobosken/bbscript
 			],
 		),
 		1635: (
-			size: 4,
+			size: 8,
 			name: "",
 			codeBlock: NoBlock,
-			args: [],
+			args: [
+				Number,
+			],
 		),
 		1637: (
 			size: 36,
@@ -10006,7 +10008,7 @@ https://github.com/dobosken/bbscript
 		),
 		1803: (
 			size: 40,
-			name: "triggerUponInObject",
+			name: "sendSignalToObject",
 			codeBlock: NoBlock,
 			args: [
 				String32,
@@ -10024,7 +10026,7 @@ https://github.com/dobosken/bbscript
 		),
 		1818: (
 			size: 4,
-			name: "",
+			name: "restoreSuperDash",
 			codeBlock: NoBlock,
 			args: [],
 		),
@@ -12517,7 +12519,7 @@ https://github.com/dobosken/bbscript
 		),
 		2196: (
 			size: 20,
-			name: "exPointFResetObject",
+			name: "setObjectEX_POINT_F",
 			codeBlock: NoBlock,
 			args: [
 				Enum("e_objects"),
