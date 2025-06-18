@@ -6,19 +6,19 @@ Not implicitly incompatible with other Arcsys titles, but this fork has not been
 
 ## How to install
 
-1. Get the latest version from [Releases](https://github.com/dobosken/bbscript/releases). It includes an up-to-date dbfz.ron
+1. Get the latest version of the executable from [Releases](https://github.com/dobosken/bbscript/releases).
 
-2. Shove the archive next to an existing bbscript
+2. It includes a dbfz.ron, but you'll want to manually download [the most recent one](https://github.com/dobosken/bbscript/blob/dbfz/static_db/dbfz.ron).
 
-3. Extract it.
+3. Replace the existing BBScript executable and dbfz.ron in your workflow.
 
-4. it's a drop-in replacement. You're done. Congrats.
+If your workflow is based on my own bbscript editing pack (bbs_magic.cmd), then you should already have all of this.
 
-**Note: You cannot use my custom dbfz.ron with vanilla BBScript. You'll have to copy over the new BBScript executable as well.**
+**Warning: You cannot use my custom dbfz.ron with vanilla BBScript. You'll have to copy over the new BBScript executable as well.**
 
 ## Moar stuff
 
-Documentation can be found at ( [DBFZ BBS lookup](https://dobosken.github.io/dbfz_bbs_lookup/) ), but the website is not yet fully up-to-date, so make sure to keep dbfz.ron open and cross-reference the id numbers.
+Documentation can be found at ( [DBFZ BBS lookup](https://dobosken.github.io/dbfz_bbs_lookup/) ).
 
 Also check out ( [dobosken/dbfz_npp](https://github.com/dobosken/dbfz_npp) ) for better BBS editing with Notepad++.
 
