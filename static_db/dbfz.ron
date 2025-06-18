@@ -1,5 +1,5 @@
 /*
-ron_version: 1.0.6
+ron_version: 1.0.7
 https://github.com/dobosken/bbscript
 */
 
@@ -441,6 +441,7 @@ https://github.com/dobosken/bbscript
 			39: "PRE_DRAW",
 			41: "ARMOR",
 			43: "MUTEKI_PRE_HITSTOP",
+			44: "SIGNAL_NULL",
 			45: "DESTROY",
 			46: "WALL",
 			47: "AFTER_EXIT",
@@ -1015,6 +1016,53 @@ https://github.com/dobosken/bbscript
 		"e_zline": {
 			0: "BACK",
 			2: "FRONT",
+		},
+		"e_flooreffect": {
+			0: "IDLING",
+			1: "WALKSTEP",
+			2: "DASHSTART",
+			3: "DASHSTEP",
+			4: "DASHBRAKE",
+			5: "JUMPDUST",
+			6: "LANDING",
+			7: "CRASHLV1",
+			8: "CRASHLV2",
+			9: "NOKEZORI",
+			10: "LANDCRACK",
+			11: "BRAKELONG",
+			12: "SHOTGROUND",
+		},
+		"e_landbreak": {
+			0: "LAND_BREAK_S",
+			1: "LAND_BREAK_L",
+			2: "LAND_BREAK_DIR_S",
+			3: "LAND_BREAK_DIR_L",
+		},
+		"e_wldstp": {
+			0: "Simple",
+			1: "Kakusei",
+			2: "Dokidoki",
+			3: "ULTIMATE_LV1",
+			4: "ULTIMATE_LV3",
+			5: "MIKIWAME_MOVE",
+			6: "GC_CHANGE",
+			7: "ASSIST_ATTACK",
+			8: "SHENLONG",
+			9: "SlowHitStop",
+			10: "StopBG",
+			11: "WallStamp",
+		},
+		"e_skillstance": {
+			0: "StandOrAir",
+			1: "Stand",
+			2: "Crouch",
+			3: "Air",
+			4: "SubMember",
+		},
+		"e_homing": {
+			0: "DistanceAccel",
+			1: "FixAccel",
+			2: "ToSpeed",
 		},
 	},
 	instructions: Sized({
@@ -2798,8 +2846,8 @@ https://github.com/dobosken/bbscript
 			name: "superFreeze",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
+				Enum("e_wldstp"),
+				Enum("e_attachmentpoint"),
 				Number,
 				Number,
 			],
@@ -4494,7 +4542,7 @@ https://github.com/dobosken/bbscript
 			name: "effectForLandBreak",
 			codeBlock: NoBlock,
 			args: [
-				Number,
+				Enum("e_landbreak"),
 				Number,
 				Number,
 				Number,
@@ -4531,8 +4579,8 @@ https://github.com/dobosken/bbscript
 			name: "atkCategoryInit",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
+				Enum("e_movetype"),
+				Enum("e_skillstance"),
 			],
 		),
 		709: (
@@ -6686,7 +6734,7 @@ https://github.com/dobosken/bbscript
 		),
 		1143: (
 			size: 8,
-			name: "atkHoseiTadan",
+			name: "damageScalingEachHit",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -9366,7 +9414,7 @@ https://github.com/dobosken/bbscript
 			codeBlock: NoBlock,
 			args: [
 				Enum("e_movetype"),
-				Number,
+				Enum("e_skillstance"),
 			],
 		),
 		1669: (
@@ -9402,8 +9450,8 @@ https://github.com/dobosken/bbscript
 			name: "initializeForLockExe",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
+				Enum("e_movetype"),
+				Enum("e_skillstance"),
 			],
 		),
 		1674: (
@@ -10318,7 +10366,7 @@ https://github.com/dobosken/bbscript
 		),
 		1869: (
 			size: 8,
-			name: "",
+			name: "exMutekiShotLevelM1",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -11187,17 +11235,13 @@ https://github.com/dobosken/bbscript
 			name: "homing",
 			codeBlock: NoBlock,
 			args: [
-				Enum("e_objects"),
+				Enum("e_homing"),
 				Enum("e_objects"),
 				Enum("e_attachmentpoint"),
-				Number,
-				Number,
-				Number,
-				Number,
-				Number,
-				Number,
-				Number,
-				Number,
+				AccessedValue,
+				AccessedValue,
+				AccessedValue,
+				AccessedValue,
 			],
 		),
 		2030: (
@@ -12347,8 +12391,8 @@ https://github.com/dobosken/bbscript
 			name: "floorEffect",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
+				Enum("e_flooreffect"),
+				Enum("e_attachmentpoint"),
 			],
 		),
 		2176: (
@@ -13537,7 +13581,7 @@ https://github.com/dobosken/bbscript
 		),
 		2353: (
 			size: 8,
-			name: "naguri_Nagurareru",
+			name: "enableObjectStrike",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -13545,10 +13589,10 @@ https://github.com/dobosken/bbscript
 		),
 		2354: (
 			size: 8,
-			name: "naguri_Naguru",
+			name: "signalObjectStrike",
 			codeBlock: NoBlock,
 			args: [
-				Number,
+				Enum("e_interrupts"),
 			],
 		),
 		2355: (
