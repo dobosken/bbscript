@@ -1,5 +1,5 @@
 /*
-ron_version: 1.0.7
+ron_version: 1.0.8
 https://github.com/dobosken/bbscript
 */
 
@@ -630,6 +630,7 @@ https://github.com/dobosken/bbscript
 			125: "plr5_false",
 			126: "plr6_false",
 			127: "plr7_false",
+			137: "USING_SUPER",
 			138: "THREE",
 			139: "TWO",
 		},
@@ -1064,6 +1065,13 @@ https://github.com/dobosken/bbscript
 			1: "FixAccel",
 			2: "ToSpeed",
 		},
+		"e_hiteffect": {
+			0: "Default",
+			1: "None",
+			2: "Object",
+			3: "CmnObject",
+			4: "Particle",
+		},
 	},
 	instructions: Sized({
 		0: (
@@ -1333,9 +1341,8 @@ https://github.com/dobosken/bbscript
 			codeBlock: NoBlock,
 			args: [
 				String32,
-				Number,
-				Number,
-				Number,
+				Enum("e_objects"),
+				AccessedValue,
 			],
 		),
 		34: (
@@ -4800,7 +4807,7 @@ https://github.com/dobosken/bbscript
 		),
 		756: (
 			size: 8,
-			name: "atkVectorXCounterHit",
+			name: "attackXKnockbackCounter",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -4845,11 +4852,10 @@ https://github.com/dobosken/bbscript
 			args: [],
 		),
 		768: (
-			size: 12,
+			size: 8,
 			name: "counterhitAirPushbackY",
 			codeBlock: NoBlock,
 			args: [
-				Number,
 				Number,
 			],
 		),
@@ -4910,12 +4916,9 @@ https://github.com/dobosken/bbscript
 			name: "hitGravityOverTime",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
-				Number,
-				Number,
-				Number,
-				Number,
+				AccessedValue,
+				AccessedValue,
+				AccessedValue,
 			],
 		),
 		784: (
@@ -4923,12 +4926,9 @@ https://github.com/dobosken/bbscript
 			name: "counterHitGravityOverTime",
 			codeBlock: NoBlock,
 			args: [
-				Number,
-				Number,
-				Number,
-				Number,
-				Number,
-				Number,
+				AccessedValue,
+				AccessedValue,
+				AccessedValue,
 			],
 		),
 		785: (
@@ -5187,7 +5187,7 @@ https://github.com/dobosken/bbscript
 		),
 		832: (
 			size: 8,
-			name: "counterUntechAmount",
+			name: "counterAirHitstunAmount",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -5519,7 +5519,7 @@ https://github.com/dobosken/bbscript
 			codeBlock: NoBlock,
 			args: [
 				Number,
-				Number,
+				Enum("e_operators"),
 				Number,
 			],
 		),
@@ -5529,7 +5529,7 @@ https://github.com/dobosken/bbscript
 			codeBlock: NoBlock,
 			args: [
 				Number,
-				Number,
+				Enum("e_operators"),
 				Number,
 			],
 		),
@@ -5970,7 +5970,7 @@ https://github.com/dobosken/bbscript
 		),
 		1043: (
 			size: 8,
-			name: "canGrabDuringHitstun",
+			name: "atkComboForceHit",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -5986,19 +5986,19 @@ https://github.com/dobosken/bbscript
 		),
 		1045: (
 			size: 40,
-			name: "attackDamageEffect",
+			name: "atkDamageEffect",
 			codeBlock: NoBlock,
 			args: [
-				Number,
+				Enum("e_hiteffect"),
 				String32,
 			],
 		),
 		1046: (
 			size: 40,
-			name: "attackGuardEffect",
+			name: "atkGuardEffect",
 			codeBlock: NoBlock,
 			args: [
-				Number,
+				Enum("e_hiteffect"),
 				String32,
 			],
 		),
@@ -7094,7 +7094,7 @@ https://github.com/dobosken/bbscript
 		),
 		1187: (
 			size: 8,
-			name: "disableOpponentRecovery",
+			name: "enableGroundUkemi",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -8102,7 +8102,7 @@ https://github.com/dobosken/bbscript
 		),
 		1310: (
 			size: 8,
-			name: "initTensionBalanceGuard",
+			name: "initCooldownTimeSpecialTag",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -9195,7 +9195,7 @@ https://github.com/dobosken/bbscript
 		),
 		1639: (
 			size: 36,
-			name: "AddARendaChain",
+			name: "addARendaChain",
 			codeBlock: NoBlock,
 			args: [
 				String32,
@@ -9243,7 +9243,7 @@ https://github.com/dobosken/bbscript
 		),
 		1645: (
 			size: 8,
-			name: "enableSparkCancel",
+			name: "enableOverdriveCancel",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -9251,7 +9251,7 @@ https://github.com/dobosken/bbscript
 		),
 		1646: (
 			size: 8,
-			name: "ultimateCancelPD",
+			name: "enableOverdriveCancelOnHit",
 			codeBlock: NoBlock,
 			args: [
 				Number,
