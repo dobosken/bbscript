@@ -6,7 +6,7 @@ Not implicitly incompatible with other Arcsys titles, but this fork has not been
 
 ## How to install
 
-I highly recommend just getting the [DBFZ BBS editing pack](https://drive.google.com/file/d/1bReg3u3IOu6Kc0zUP2Bx2iaPULsNV3aS/view?usp=sharing). It's easier to use, and contains (nearly) everything you need to get going straight away.
+I highly recommend just getting the [DBFZ BBS editing pack](https://github.com/dobosken/bbscript/releases/download/v1.1/DBFZ.BBS.editing_v3.61.7z). It's easier to use, and contains (nearly) everything you need to get going straight away.
 
 If you wish to use my variant of BBS with other tools:
 
