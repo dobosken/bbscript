@@ -12,7 +12,7 @@ function_name = @{
 
 args = { arg ~ ("," ~ arg)* ~ ","? }
 
-arg = {
+arg = ${
   "s16(" ~ string16 ~ ")"
 | "s32(" ~ string32 ~ ")"
 | "var(" ~ (named_var | var_id) ~ ")"
@@ -21,6 +21,7 @@ arg = {
 | "(" ~ named_value ~ ")"
 | "0x" ~ raw_data
 | num
+| "bitmask(" ~ bits ~ ")"
 }
 
 string16 = @{
@@ -53,6 +54,10 @@ named_value = @{
 
 raw_data = @{
   ASCII_HEX_DIGIT+
+}
+
+bits = @{
+  ASCII_BIN_DIGIT+
 }
 
 num = @{

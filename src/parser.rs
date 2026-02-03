@@ -17,6 +17,7 @@ pub enum ArgValue {
     String32(String),
     AccessedValue(TaggedValue),
     Enum(String, BBSNumber),
+    Bitmask(BBSNumber),
 }
 
 #[derive(Debug, Clone)]
@@ -50,6 +51,14 @@ fn arg_to_string(config: &ScriptConfig, arg: &ArgValue) -> Result<String, BBScri
                 .get_by_left(val)
                 .map_or(Ok(format!("{val}")), |name| Ok(format!("({name})"))),
             None => return Err(BBScriptError::BadEnumReference(name.clone())),
+        },
+        ArgValue::Bitmask(bits) => {
+            let mut buf = format!("{bits:#034b}");
+            if buf.len() > 1 {
+                buf.remove(0);
+                buf.remove(0);
+            }
+            Ok(format!("bitmask({buf})"))
         },
     }
 }
@@ -320,7 +329,8 @@ impl ScriptConfig {
                         value: input.get_i32_le(),
                     })
                 }
-            }
+            },
+            ArgType::Bitmask =>  ArgValue::Bitmask(input.get_i32_le()),
         }
     }
 }

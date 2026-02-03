@@ -1,5 +1,5 @@
 /*
-ron_version: 1.0.8
+ron_version: 1.0.9
 https://github.com/dobosken/bbscript
 */
 
@@ -432,7 +432,7 @@ https://github.com/dobosken/bbscript
 			30: "SIGNAL7",
 			31: "SIGNAL8",
 			32: "SIGNAL9",
-			33: "MUTEKI",
+			33: "INVUL",
 			34: "SIGNAL_EX",
 			35: "PLAYER_DAMAGE",
 			36: "FRAME_STEP",
@@ -440,11 +440,11 @@ https://github.com/dobosken/bbscript
 			38: "PLAYER_GUARD",
 			39: "PRE_DRAW",
 			41: "ARMOR",
-			43: "MUTEKI_PRE_HITSTOP",
+			43: "INVUL_PRE_HITSTOP",
 			44: "SIGNAL_NULL",
 			45: "DESTROY",
 			46: "WALL",
-			47: "AFTER_EXIT",
+			47: "PLAYER_STATE_CHANGE",
 			48: "ENTRY_NEXT",
 			49: "SIGNAL_NAME",
 			50: "SUPERFREEZE",
@@ -458,7 +458,7 @@ https://github.com/dobosken/bbscript
 			58: "HIT_INSTANT_KILL",
 			59: "ANY_HIT_BY_INSTANT_KILL",
 			62: "FIRST_HIT",
-			64: "MUTEKI_PRE_HITSTOP_FOR_TOBIDOUGU",
+			64: "INVUL_PRE_HITSTOP_FOR_PROJECTILES",
 			65: "REFLACT",
 			66: "REFLACTED",
  			67: "PRE_HIT_COLLISION",
@@ -622,6 +622,7 @@ https://github.com/dobosken/bbscript
 			108: "REQUIRES_300_TENSION",
 			109: "REQUIRES_200_TENSION",
 			111: "IS_KNOCKED_DOWN",
+			118: "ENEMY_DAMAGE_COUNTER",
 			120: "plr4_true",
 			121: "plr5_true",
 			122: "plr6_true",
@@ -1071,6 +1072,15 @@ https://github.com/dobosken/bbscript
 			2: "Object",
 			3: "CmnObject",
 			4: "Particle",
+		},
+		"e_hitpositiontype": {
+			0: "None",
+			1: "RelativeAttackerNow",
+			2: "AbsoluteNow",
+			3: "RelativeDefenderNow",
+			4: "RelativeAttacker",
+			5: "RelativeAbsolute",
+			6: "RelativeDefender",
 		},
 	},
 	instructions: Sized({
@@ -4034,13 +4044,13 @@ https://github.com/dobosken/bbscript
 		),
 		481: (
 			size: 48,
-			name: "linkObjectMaterialSet",
+			name: "createSocketLinkParticleOnObject",
 			codeBlock: NoBlock,
 			args: [
 				String32,
 				Number,
 				Number,
-				Number,
+				Enum("e_objects"),
 			],
 		),
 		482: (
@@ -4072,7 +4082,7 @@ https://github.com/dobosken/bbscript
 			args: [
 				Enum("e_attachmentpoint"),
 				Enum("e_attachmentpoint"),
-				Enum("e_zline"),
+				Bitmask,
 			],
 		),
 		547: (
@@ -5822,7 +5832,7 @@ https://github.com/dobosken/bbscript
 		),
 		1017: (
 			size: 8,
-			name: "armorBreak",
+			name: "atkArmorBreak",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -6148,10 +6158,10 @@ https://github.com/dobosken/bbscript
 		),
 		1067: (
 			size: 16,
-			name: "atkHitPositionType",
+			name: "moveOpponentOnHit",
 			codeBlock: NoBlock,
 			args: [
-				Number,
+				Enum("e_hitpositiontype"),
 				Number,
 				Number,
 			],
@@ -6534,7 +6544,7 @@ https://github.com/dobosken/bbscript
 		),
 		1116: (
 			size: 8,
-			name: "pierceSuperArmor",
+			name: "atkInvulOverride",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -6750,7 +6760,7 @@ https://github.com/dobosken/bbscript
 		),
 		1145: (
 			size: 8,
-			name: "atkMutekiTime",
+			name: "atkInvulTime",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -7768,7 +7778,7 @@ https://github.com/dobosken/bbscript
 			name: "initPlayerPrivateFlag",
 			codeBlock: NoBlock,
 			args: [
-				Number,
+				Bitmask,
 			],
 		),
 		1269: (
@@ -8569,7 +8579,7 @@ https://github.com/dobosken/bbscript
 			name: "skillForceDisableFlag",
 			codeBlock: NoBlock,
 			args: [
-				Number,
+				Bitmask,
 			],
 		),
 		1420: (
@@ -8593,7 +8603,7 @@ https://github.com/dobosken/bbscript
 			name: "skillRequestActionFlag",
 			codeBlock: NoBlock,
 			args: [
-				Number,
+				Bitmask,
 			],
 		),
 		1423: (
@@ -9150,7 +9160,7 @@ https://github.com/dobosken/bbscript
 			name: "addSkillForceDisableFlagQuick",
 			codeBlock: NoBlock,
 			args: [
-				Number,
+				Bitmask,
 			],
 		),
 		1629: (
@@ -9158,7 +9168,7 @@ https://github.com/dobosken/bbscript
 			name: "addSkillForceDisableFlag",
 			codeBlock: NoBlock,
 			args: [
-				Number,
+				Bitmask,
 			],
 		),
 		1630: (
@@ -9166,7 +9176,7 @@ https://github.com/dobosken/bbscript
 			name: "delSkillForceDisableFlag",
 			codeBlock: NoBlock,
 			args: [
-				Number,
+				Bitmask,
 			],
 		),
 		1635: (
@@ -10141,7 +10151,7 @@ https://github.com/dobosken/bbscript
 		),
 		1827: (
 			size: 8,
-			name: "enableSuperArmor",
+			name: "invul",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10157,7 +10167,7 @@ https://github.com/dobosken/bbscript
 		),
 		1839: (
 			size: 8,
-			name: "superArmorGrabInvul",
+			name: "invulToThrows",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10165,7 +10175,7 @@ https://github.com/dobosken/bbscript
 		),
 		1840: (
 			size: 8,
-			name: "superArmorType",
+			name: "invulType",
 			codeBlock: NoBlock,
 			args: [
 				Enum("e_superarmortype"),
@@ -10181,7 +10191,7 @@ https://github.com/dobosken/bbscript
 		),
 		1846: (
 			size: 8,
-			name: "superArmorBurstGuard",
+			name: "invulToSparkingBurst",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10189,7 +10199,7 @@ https://github.com/dobosken/bbscript
 		),
 		1847: (
 			size: 8,
-			name: "superArmorLoseMid",
+			name: "invulLoseToMidAtk",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10197,7 +10207,7 @@ https://github.com/dobosken/bbscript
 		),
 		1848: (
 			size: 8,
-			name: "superArmorLoseHigh",
+			name: "invulLoseToHighAtk",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10205,7 +10215,7 @@ https://github.com/dobosken/bbscript
 		),
 		1849: (
 			size: 8,
-			name: "superArmorLoseLow",
+			name: "invulLoseToLowAtk",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10213,7 +10223,7 @@ https://github.com/dobosken/bbscript
 		),
 		1850: (
 			size: 8,
-			name: "exMutekiGuardImpossible",
+			name: "invulToUnblockableAtk",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10221,7 +10231,7 @@ https://github.com/dobosken/bbscript
 		),
 		1851: (
 			size: 12,
-			name: "superArmorHitstop",
+			name: "invulExtraHitstop",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10238,7 +10248,7 @@ https://github.com/dobosken/bbscript
 		),
 		1853: (
 			size: 8,
-			name: "superArmorThrowTech",
+			name: "exMutekiNagenuke",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10246,7 +10256,7 @@ https://github.com/dobosken/bbscript
 		),
 		1854: (
 			size: 8,
-			name: "exMutekiAntiAir",
+			name: "invulToAnti-airAtk",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10254,7 +10264,7 @@ https://github.com/dobosken/bbscript
 		),
 		1855: (
 			size: 8,
-			name: "superArmorDamagePercent",
+			name: "invulDamagePassthrough",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10262,7 +10272,7 @@ https://github.com/dobosken/bbscript
 		),
 		1856: (
 			size: 8,
-			name: "exMutekiObjectAttack",
+			name: "invulToProjectiles",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10270,7 +10280,7 @@ https://github.com/dobosken/bbscript
 		),
 		1857: (
 			size: 8,
-			name: "exMutekiHontaiAttack",
+			name: "invulToPlayers",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10278,7 +10288,7 @@ https://github.com/dobosken/bbscript
 		),
 		1858: (
 			size: 8,
-			name: "exMutekiFire",
+			name: "invulToFire",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10294,7 +10304,7 @@ https://github.com/dobosken/bbscript
 		),
 		1860: (
 			size: 8,
-			name: "exMutekiShotLevel0",
+			name: "invulToLevel0Projectiles",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10302,7 +10312,7 @@ https://github.com/dobosken/bbscript
 		),
 		1861: (
 			size: 8,
-			name: "superArmorOverdriveGuard",
+			name: "invulToSuperAtk",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10326,7 +10336,7 @@ https://github.com/dobosken/bbscript
 		),
 		1864: (
 			size: 8,
-			name: "exMutekiAtkLevel",
+			name: "invulToAtkLevels",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10342,7 +10352,7 @@ https://github.com/dobosken/bbscript
 		),
 		1866: (
 			size: 8,
-			name: "headInvul",
+			name: "invulToAirAttacks",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10358,7 +10368,7 @@ https://github.com/dobosken/bbscript
 		),
 		1868: (
 			size: 8,
-			name: "exMutekiArmorBreak",
+			name: "invulToArmorBreak",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10366,7 +10376,7 @@ https://github.com/dobosken/bbscript
 		),
 		1869: (
 			size: 8,
-			name: "exMutekiShotLevelM1",
+			name: "invulToLevel-1Projectiles",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10374,7 +10384,7 @@ https://github.com/dobosken/bbscript
 		),
 		1870: (
 			size: 8,
-			name: "superArmorPhysicalGuard",
+			name: "invulToMainPlayerPhysical",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10382,7 +10392,7 @@ https://github.com/dobosken/bbscript
 		),
 		1871: (
 			size: 8,
-			name: "superArmorPhysicalAssistGuard",
+			name: "invulToSubPlayerPhysical",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -10390,7 +10400,7 @@ https://github.com/dobosken/bbscript
 		),
 		1872: (
 			size: 8,
-			name: "superArmorKiBlastInvul",
+			name: "invulToKiBlasts",
 			codeBlock: NoBlock,
 			args: [
 				Number,
@@ -12144,7 +12154,12 @@ https://github.com/dobosken/bbscript
 			size: 76,
 			name: "event_CreateExChara",
 			codeBlock: NoBlock,
-			args: [],
+			args: [
+				String32,
+				String32,
+				Enum("e_attachmentpoint"),
+				Number,
+			],
 		),
 		2142: (
 			size: 36,
@@ -12235,7 +12250,7 @@ https://github.com/dobosken/bbscript
 		2153: (
 			size: 8,
 			name: "event_ControlObject",
-			codeBlock: NoBlock,
+			codeBlock: Begin,
 			args: [
 				Number,
 			],
@@ -12894,7 +12909,7 @@ https://github.com/dobosken/bbscript
 			codeBlock: NoBlock,
 			args: [
 				String32,
-				Number,
+				Bitmask,
 			],
 		),
 		2244: (
@@ -13259,7 +13274,10 @@ https://github.com/dobosken/bbscript
 			size: 16,
 			name: "checkInputExDir",
 			codeBlock: NoBlock,
-			args: [],
+			args: [
+				Enum("e_input"),
+				AccessedValue,
+			],
 		),
 		2299: (
 			size: 8,

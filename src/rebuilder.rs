@@ -11,11 +11,7 @@ use bytes::{Bytes, BytesMut};
 use pest_consume::{match_nodes, Parser};
 
 pub fn rebuild_bbscript(db: ScriptConfig, script: String) -> Result<Bytes, BBScriptError> {
-    // Yoink out '{' and '}'
-    let scrubbed = &script.replace(r"{", r"")
-                                .replace(r"}", r"");
-
-    let parsed = BBSParser::parse(Rule::program, &scrubbed)?;
+    let parsed = BBSParser::parse(Rule::program, &script)?;
     let root = parsed.single()?;
 
     // verbose!(println!("Parsed program:\n{:#?}", &root), verbose);
@@ -26,9 +22,16 @@ pub fn rebuild_bbscript(db: ScriptConfig, script: String) -> Result<Bytes, BBScr
     Ok(file)
 }
 
+pub fn preprocess_bbscript(script: String) -> Result<String, BBScriptError> {
+    // Yoink out '{' and '}'
+    let scrubbed = &script.replace(r"{", r"").replace(r"}", r"");
+    Ok(scrubbed.clone())
+}
+
 struct JumpTable {
     id_list: Vec<u32>,
     entries: HashMap<u32, Vec<u8>>,
+    actions: Vec<Bytes>,
 }
 
 impl JumpTable {
@@ -37,12 +40,17 @@ impl JumpTable {
         Self {
             id_list,
             entries: HashMap::new(),
+            actions: Vec::new(),
         }
     }
 
     #[inline]
     pub fn is_entry_id(&self, id: u32) -> bool {
         self.id_list.contains(&id)
+    }
+
+    pub fn is_duplicate(&self, jump_name: &Bytes) -> bool {
+        self.actions.contains(&jump_name)
     }
 
     #[inline]
@@ -54,6 +62,7 @@ impl JumpTable {
 
         table.extend_from_slice(&jump_name);
         table.write_u32::<LE>(offset).unwrap();
+        self.actions.push(jump_name.clone());
     }
 
     pub fn to_table_bytes(mut self) -> Vec<u8> {
@@ -128,9 +137,15 @@ fn assemble_script(program: Vec<BBSFunction>, db: &ScriptConfig) -> Result<Bytes
                 .unwrap();
         }
 
+        // Populate jump table entry with actions, but skip duplicates.
         if jump_tables.is_entry_id(instruction_info.id()) {
             if let Some(ParserValue::String32(name)) = instruction.args.get(0) {
-                jump_tables.add_table_entry(instruction_info.id(), offset, name);
+                if jump_tables.is_duplicate(name) {
+                    let duplicate = String::from_utf8_lossy(name);
+                    log::warn!("'{}' occurs multipe times in your script. Using the topmost one.", duplicate.trim_matches('\0'));
+                } else {
+                    jump_tables.add_table_entry(instruction_info.id(), offset, name);
+                }
             }
         }
 
@@ -191,6 +206,9 @@ fn assemble_script(program: Vec<BBSFunction>, db: &ScriptConfig) -> Result<Bytes
                     );
                     script_buffer.write_i32::<LE>(tag).unwrap();
                     script_buffer.write_i32::<LE>(val).unwrap();
+                },
+                &ParserValue::Bitmask(num) => {
+                    script_buffer.write_i32::<LE>(num).unwrap();
                 }
             };
         }
@@ -230,6 +248,7 @@ impl BBSFunction {
                 ParserValue::BadTag(_, _) => 8,
                 ParserValue::Named(_) => 4,
                 ParserValue::Number(_) => 4,
+                ParserValue::Bitmask(_) => 4,
             })
             .sum();
 
@@ -248,6 +267,7 @@ enum ParserValue {
     Mem(i32),
     Val(i32),
     BadTag(i32, i32),
+    Bitmask(i32),
 }
 
 impl ParserValue {
@@ -263,6 +283,7 @@ impl ParserValue {
             ParserValue::Mem(_) => AccessedValue,
             ParserValue::Val(_) => AccessedValue,
             ParserValue::BadTag(_, _) => AccessedValue,
+            ParserValue::Bitmask(_) => Bitmask,
         }
     }
 }
@@ -319,6 +340,7 @@ impl BBSParser {
             [unknown_tag(tag), tagged_value(val)] => ParserValue::BadTag(tag, val),
             [raw_data(data)] => ParserValue::Raw(data),
             [num(val)] => ParserValue::Number(val),
+            [bits(val)] => ParserValue::Bitmask(val),
         ))
     }
 
@@ -371,6 +393,18 @@ impl BBSParser {
             Ok(num) => Ok(num),
             Err(e) => Err(input.error(e)),
         }
+    }
+
+    fn bits(input: Node) -> PResult<i32> {
+        let input_bits = input.as_str().as_bytes();
+        let digits: Vec<i32> = input_bits.into_iter().map(|x| i32::from(x - b'0')).collect();
+
+        let mut output_mask: i32 = 0;
+        for (shift, bit) in digits.into_iter().rev().enumerate() {
+            output_mask += bit << shift;
+        }
+
+        Ok(output_mask)
     }
 }
 

@@ -29,6 +29,7 @@ pub enum ArgType {
     /// `AccessedValue`s are treated specially, the value
     /// they contain will be translated to a corresponding name using the `variable_config` field in the [`GameDB`]
     AccessedValue,
+    Bitmask,
 }
 
 impl ArgType {
@@ -46,6 +47,7 @@ impl ArgType {
             String16 => 0x10,
             String32 => 0x20,
             AccessedValue => std::mem::size_of::<BBSNumber>() * 2,
+            Bitmask => std::mem::size_of::<BBSNumber>(),
         }
     }
 }
@@ -77,7 +79,7 @@ pub enum GenericInstruction {
 
 impl GenericInstruction {
     #[inline]
-    pub fn name(&self) -> Option<String> {
+    pub fn _name(&self) -> Option<String> {
         let name = match self {
             Self::Sized(_, a) => a.name.clone(),
             Self::Unsized(_, a) => a.name.clone(),

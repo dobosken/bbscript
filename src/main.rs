@@ -16,6 +16,7 @@ use std::path::{Path, PathBuf};
 use crate::error::BBScriptError;
 #[cfg(feature = "old-cfg-converter")]
 use crate::game_config::GameDB;
+use crate::rebuilder::preprocess_bbscript;
 use crate::rebuilder::rebuild_bbscript;
 
 type HashMap<K, V> = std::collections::HashMap<K, V>;
@@ -30,7 +31,7 @@ fn main() {
 }
 
 #[derive(Parser)]
-#[clap(version = crate_version!(), author = "Made by Pangaea")]
+#[clap(version = crate_version!(), author = "Original by Pangaea\nBroscar's fork! If you run into any issues, bother me instead.\n\n")]
 #[clap(color = clap::ColorChoice::Never)]
 #[clap(arg_required_else_help(true), subcommand_required(true))]
 struct MainCli {
@@ -235,6 +236,11 @@ fn run_rebuilder(game: String, input: PathBuf, output: PathBuf, db_folder: PathB
 
     let mut script = String::new();
     File::open(input)?.read_to_string(&mut script)?;
+
+    match preprocess_bbscript(script) {
+        Ok(f) => script = f,
+        Err(e) => return Err(e.into()),
+    }
 
     match rebuild_bbscript(db, script) {
         Ok(f) => {
