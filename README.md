@@ -6,7 +6,7 @@ Not implicitly incompatible with other Arcsys titles, but this fork has not been
 
 ## How to install
 
-I highly recommend just getting the [DBFZ BBS editing pack](https://github.com/dobosken/bbscript/releases/download/v1.1/DBFZ.BBS.editing_v3.61.7z). It's easier to use, and contains (nearly) everything you need to get going straight away.
+I highly recommend getting the [DBFZ BBS editing pack](https://drive.google.com/file/d/1OuERI2br8VOIvW8V317QGJrYiFUUkjQ6/view?usp=sharing) (7z password: bbs). It's easier to use, and contains (nearly) everything you need to get going straight away.
 
 If you wish to use my variant of BBS with other tools:
 
@@ -26,10 +26,10 @@ Also check out ( [dobosken/dbfz_npp](https://github.com/dobosken/dbfz_npp) ) for
 
 ## Changes from Pangaea's BBScript
 
-- Indentation is now done with tabs, and is less likely to break due to vanilla Arcsys errors
+- Indentation is now done with tabs, and missing end tags will no longer break indentation for entire files.
 
-- Support for opening and closing braces. Enables somewhat decent code folding, theme styling etc.
+- The addition of opening and closing braces. Enables somewhat decent code folding, theme styling etc.
 
-- Tweaks to automatically correct vanilla Arcsys errors in JNNEF and BRS (FRN still has to be fixed manually)
+- Tweaks to ensure all DBFZ scripts parse and rebuild correctly.
 
-- A heavily tweaked DBFZ database. Breaks conventions with legacy BBS terminology, which was often cryptic or incorrect.
+- A heavily modified DBFZ database. Breaks conventions with legacy BBS terminology, which was often cryptic or incorrect.
