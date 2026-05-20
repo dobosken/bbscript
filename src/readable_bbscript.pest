@@ -15,6 +15,7 @@ args = { arg ~ ("," ~ arg)* ~ ","? }
 arg = ${
   "s16(" ~ string16 ~ ")"
 | "s32(" ~ string32 ~ ")"
+| "s128(" ~ string128 ~ ")"
 | "var(" ~ (named_var | var_id) ~ ")"
 | "int(" ~ tagged_value ~ ")"
 | "BadTag(" ~ unknown_tag ~ "," ~ tagged_value ~ ")"
@@ -30,6 +31,10 @@ string16 = @{
 
 string32 = @{
   string_char{, 32}
+}
+
+string128 = @{
+  string_char{, 128}
 }
 
 named_var = @{

@@ -15,6 +15,7 @@ pub enum ArgValue {
     Number(BBSNumber),
     String16(String),
     String32(String),
+    String128(String),
     AccessedValue(TaggedValue),
     Enum(String, BBSNumber),
     Bitmask(BBSNumber),
@@ -34,6 +35,7 @@ fn arg_to_string(config: &ScriptConfig, arg: &ArgValue) -> Result<String, BBScri
         ArgValue::Number(num) => Ok(format!("{num}")),
         ArgValue::String16(s) => Ok(format!("s16({s})")),
         ArgValue::String32(s) => Ok(format!("s32({s})")),
+        ArgValue::String128(s) => Ok(format!("s128({s})")),
         ArgValue::AccessedValue(_tagged @ TaggedValue::Improper { tag, value }) => {
             Ok(format!("BadTag({tag}, {value})"))
         }
@@ -311,6 +313,12 @@ impl ScriptConfig {
 
                 ArgValue::String32(process_string_buf(&buf))
             }
+            ArgType::String128 => {
+                let mut buf = [0; ArgType::STRING128_SIZE];
+                input.copy_to_slice(&mut buf);
+
+                ArgValue::String128(process_string_buf(&buf))
+            }
             ArgType::Number => ArgValue::Number(input.get_i32_le()),
             ArgType::Enum(s) => ArgValue::Enum(s.clone(), input.get_i32_le()),
             ArgType::AccessedValue => {
@@ -340,8 +348,11 @@ fn process_string_buf(buf: &[u8]) -> String {
         .filter(|x| **x != 0)
         // JNNEF: 0x13 to null
         .filter(|x| **x != 19)
+        // BRS & TNN: 0x09 to null
+        .filter(|x| **x != 09)
+        // return string
         .map(|x| *x as char)
         .collect::<String>()
-        // BRS: 0x09 to 'g'
-        .replace(r"	", r"g")
+        // BRS: 'bg_roundsmokeL' to 'bg_groundsmokeL'
+        .replace(r"bg_roundsmokeL", r"bg_groundsmokeL")
 }

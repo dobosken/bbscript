@@ -158,7 +158,7 @@ fn assemble_script(program: Vec<BBSFunction>, db: &ScriptConfig) -> Result<Bytes
             );
 
             match arg {
-                ParserValue::String32(string) | ParserValue::String16(string) => {
+                ParserValue::String128(string) | ParserValue::String32(string) | ParserValue::String16(string) => {
                     script_buffer.append(&mut string.to_vec())
                 }
                 ParserValue::Raw(data) => script_buffer.append(&mut data.to_vec()),
@@ -239,6 +239,7 @@ impl BBSFunction {
             .args
             .iter()
             .map(|arg| match arg {
+                ParserValue::String128(_) => 128,
                 ParserValue::String32(_) => 32,
                 ParserValue::String16(_) => 16,
                 ParserValue::Raw(bytes) => bytes.len(),
@@ -258,6 +259,7 @@ impl BBSFunction {
 
 #[derive(Debug)]
 enum ParserValue {
+    String128(Bytes),
     String32(Bytes),
     String16(Bytes),
     Named(String),
@@ -274,6 +276,7 @@ impl ParserValue {
     pub fn to_arg_type(&self) -> ArgType {
         use ArgType::*;
         match self {
+            ParserValue::String128(_) => String128,
             ParserValue::String32(_) => String32,
             ParserValue::String16(_) => String16,
             ParserValue::Named(_) => panic!("this should never happen"),
@@ -331,6 +334,7 @@ impl BBSParser {
 
     fn arg(input: Node) -> PResult<ParserValue> {
         Ok(match_nodes!(input.into_children();
+            [string128(string)] => ParserValue::String128(string),
             [string32(string)] => ParserValue::String32(string),
             [string16(string)] => ParserValue::String16(string),
             [named_var(string)] => ParserValue::NamedMem(string),
@@ -342,6 +346,10 @@ impl BBSParser {
             [num(val)] => ParserValue::Number(val),
             [bits(val)] => ParserValue::Bitmask(val),
         ))
+    }
+
+    fn string128(input: Node) -> PResult<Bytes> {
+        Ok(string_to_bytes_of_size(input.as_str(), 128))
     }
 
     fn string32(input: Node) -> PResult<Bytes> {

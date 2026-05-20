@@ -1,6 +1,6 @@
 [package]
 name = "bbscript"
-version = "1.0.2"
+version = "1.0.3"
 edition = "2021"
 repository = "https://github.com/dobosken/bbscript"
 description = "Broscar's fork of Pangaea's bbscript."
