@@ -6,7 +6,7 @@ Not implicitly incompatible with other Arcsys titles, but this fork has not been
 
 ## How to install
 
-I highly recommend getting the [DBFZ BBS editing pack](https://drive.google.com/file/d/1OuERI2br8VOIvW8V317QGJrYiFUUkjQ6/view?usp=sharing) (7z password: bbs). It's easier to use, and contains (nearly) everything you need to get going straight away.
+I highly recommend getting the [DBFZ BBS editing pack](https://drive.google.com/file/d/18DTRJfY-UrvPiAmetwJIXxolU1_sem8x/view?usp=sharing) (7z password: bbs). It's easier to use, and contains (nearly) everything you need to get going straight away.
 
 If you wish to use my variant of BBS with other tools:
 
