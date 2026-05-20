@@ -48,19 +48,19 @@ exempt_comparison=(
 	"BBS_BRS"
 	"BBS_TNN"
 )
-b_error="0"
+b_err="0"
 for i in "${targets[@]}"
 	do echo "Building for ${i}"
 	cargo clean    # https://github.com/cross-rs/cross/issues/724
+	sleep 1
 	if [[ ${i} == ${host} ]]
-		then cargo build --target ${i} --release || b_error="1"
-		else cross build --target ${i} --release || b_error="1"
+		then cargo build --target ${i} --release || b_err="1"
+		else cross build --target ${i} --release || b_err="1"
 	fi
-	if [[ ${b_error} != "0" ]]
+	if [[ ${b_err} != "0" ]]
 		then echo "Build for ${i} failed"
-		echo "Skipping and resetting for next target"
-		cargo clean
-		b_error="0"
+		echo "Skipping ${i}"
+		b_err="0"
 		continue
 	fi
 	for a in "bbscript" "bbscript.exe"
@@ -79,8 +79,9 @@ for i in "${targets[@]}"
 		else test="wine ${bin}"
 		export WINEPREFIX="${script_path}/.wine"
 		export WINEDEBUG="-all"
+		export WINEDLLOVERRIDES="mscoree=d"
 		if [[ ! -d "${WINEPREFIX}" ]]
-			then wineboot
+			then wineboot --init
 		fi
 	fi
 
@@ -96,7 +97,7 @@ for i in "${targets[@]}"
 		if [[ "${exempt_comparison[@]}" =~ "${filename}" ]]
 			then continue
 		fi
-		diff <(od -An -tx1 -w1 -v "/tmp/bbscript_test_2") <(od -An -tx1 -w1 -v "${f}")
+		diff <(od -An -tx1 -w1 -v "/tmp/bbscript_test_2") <(od -An -tx1 -w1 -v "${f}") > /dev/null
 		if [[ $? -eq 1 ]]
 			then errors+=("${filename} did not pass binary match after parse > rebuild")
 		fi
@@ -107,10 +108,6 @@ for i in "${targets[@]}"
 		exit 1
 	fi
 
-	# if [[ -d "${script_path}/.wine" ]]
-	# 	then rm -r "${script_path}/.wine"
-	# fi
-
 	echo "Creating bbscript-v${ver}-${i}.zip"
 	if [[ -f "bbscript-v${ver}-${i}.zip" ]]
 		then rm "bbscript-v${ver}-${i}.zip"
@@ -119,6 +116,6 @@ for i in "${targets[@]}"
 	zip -r "bbscript-v${ver}-${i}.zip" "./static_db/dbfz.ron"
 
 	rm "${bin}"
-	echo -e "Done making ${bin} for ${i}!\n"
+	echo -e "Done making ${bin} ${ver} for ${i}!\n"
 done
 exit 0
